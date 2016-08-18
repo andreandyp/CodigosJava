@@ -1,6 +1,9 @@
 package cadenas;
 
 import java.util.Locale;
+import java.util.Calendar;
+   import java.util.GregorianCalendar;
+   import static java.util.Calendar.*;
 
 public class Cadenas {
     public static void main(String[] args) {
@@ -38,14 +41,25 @@ public class Cadenas {
             if(correo[i] == 'a')
                 System.out.println("Posicion de a: "+i);
         }*/
-        String cad1 = "Michael";
+        
+        /*String cad1 = "Michael";
         String cad2 = "Michael";
         String cads1 = new String("Michael");
         String cads2 = new String("Michael");
         if(cads1.equals(cads2))
             System.out.println("Iguales");
         else
-            System.out.println("Distintas");
-        //equals para comparar cadenas
+            System.out.println("Distintas");*/
+        
+        
+
+        Calendar c = new GregorianCalendar(1997, SEPTEMBER, 3);
+        String nombre = "André";
+        int edad = 18;
+        
+        String formateada  = String.format("Hola, soy %s, tengo %d años.", nombre,edad);
+        System.out.println(formateada);
+        String fecha = String.format("Nací el %1$te / %1$tm / %1$ty", c);
+        System.out.println(fecha);
     }
 }
