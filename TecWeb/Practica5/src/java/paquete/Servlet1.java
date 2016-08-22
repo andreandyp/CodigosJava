@@ -11,7 +11,7 @@ public class Servlet1 extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.sendRedirect("http://localhost:8080/Practica5/Servlet2");
+        response.sendRedirect("http://localhost:8080/Practica5/Servlet2?nombre=André");
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

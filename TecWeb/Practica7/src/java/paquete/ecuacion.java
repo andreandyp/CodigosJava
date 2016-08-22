@@ -40,18 +40,14 @@ public class ecuacion extends HttpServlet {
     private void resolver(int a, int b, int c, Double determinante) {
         if(determinante < 0){
             determinante = determinante*-1;
-            String real = Double.toString(-b/(2*a));
+            String real = Double.toString(-b/2*a);
             String imaginario = Double.toString(Math.sqrt(determinante)/(2*a));
             x1 = real+"+"+imaginario+"i";
             x2 = real+"-"+imaginario+"i";
-            System.out.println(x1);
-            System.out.println(x2);
         }
         else{
             x1 = Double.toString((-b+Math.sqrt(determinante))/(2*a));
             x2 = Double.toString((-b-Math.sqrt(determinante))/(2*a));
-            System.out.println(x1);
-            System.out.println(x2);
         }
     }
 }
