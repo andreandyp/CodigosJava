@@ -5,8 +5,8 @@ public class Television {
     private int canal;
     private boolean encendida;
     //Duda sobre private
-    final int resX;
-    final int resY;
+    private final int resX;
+    private final int resY;
 
     public Television(int vol, int canal, boolean encendida, int resX, int resY) {
         this.vol = vol;
@@ -30,16 +30,20 @@ public class Television {
     }
     
     public void subirVolumen(int svol){
-        vol = vol + svol;
+        if (vol < 100) 
+            vol = vol + svol;
     }
     public void subirVolumen(){
-        vol++;
+        if(vol < 100)
+            vol++;
     }
     public void bajarVolumen(int bvol){
-        vol = vol - bvol;
+        if(vol >= 0)
+            vol = vol - bvol;
     }
     public void bajarVolumen(){
-        vol--;
+        if(vol >= 0)
+            vol--;
     }
     
     public void cambiarCanal(int canal){
@@ -65,7 +69,6 @@ public class Television {
                 }
                 else{
                     if(i == 0)
-                        
                         canal = canales[canales.length - 1];
                     else
                         canal = canales[--i];
@@ -77,6 +80,21 @@ public class Television {
     }
     @Override
     public String toString() {
+        String lista = "";
+        for(int canal : canales){
+            lista = lista+canal+",";
+        }
         return "Television{" + "vol=" + vol + ", canal=" + canal + ", encendida=" + encendida + ", resX=" + resX + ", resY=" + resY + '}';
+        
     }
+    /*
+        subirCanal()
+        if(indice >= validChannels.length)
+            indice = -1;
+            channel = validChannels[++indice];
+        bajarCanal()
+        if(indice == 0)
+            indice = validChannels.length;
+        channel = validChannels[--indice];
+    */
 }
