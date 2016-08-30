@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 public class tabla extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -13,8 +14,9 @@ public class tabla extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int columnas = Integer.parseInt(request.getParameter("columnas"));
-        int filas = Integer.parseInt(request.getParameter("filas"));
+        HttpSession sesion = request.getSession();
+        int columnas = Integer.parseInt(sesion.getAttribute("columnas").toString());
+        int filas = Integer.parseInt(sesion.getAttribute("filas").toString());
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
@@ -27,7 +29,7 @@ public class tabla extends HttpServlet {
             for(int i = 1; i <= filas; i++){
                 out.println("<tr>");
                 for (int j = 1; j <= columnas; j++) {
-                    out.println("<td>"+i+"_"+j+"</td>");
+                    out.println("<td>"+request.getParameter("par"+i+"_"+j)+"</td>");
                 }
             }
             out.println("</table>");
