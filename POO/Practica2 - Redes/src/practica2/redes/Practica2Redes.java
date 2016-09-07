@@ -97,26 +97,30 @@ public class Practica2Redes {
 		 * libpcap loop.
 		 **********************************************************************/
 		PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
-
+                        int i = 1;
                         @Override
 			public void nextPacket(PcapPacket packet, String user) {
-
-				System.out.printf("Received packet at %s caplen=%-4d len=%-4d %s\n",
+                                
+				/*System.out.printf("Paquete recibido el %s caplen=%-4d len=%-4d %s\n",
 				    new Date(packet.getCaptureHeader().timestampInMillis()),
 				    packet.getCaptureHeader().caplen(),  // Length actually captured
 				    packet.getCaptureHeader().wirelen(), // Original length
 				    user                                 // User supplied object
 				    );
                                 /******Desencapsulado********/
-                                String hexadecimal,macD,macO,tipo;
+                                System.out.println("Paquete: "+i);
+                                ++i;
+                                String hexadecimal,macD,macO,tipo,protocolo;
                                 hexadecimal = packet.toHexdump();
                                 macD = hexadecimal.substring(6, 24);
                                 macO = hexadecimal.substring(25, 43);
-                                tipo = hexadecimal.substring(44,50);
+                                tipo = hexadecimal.substring(45,50);
+                                protocolo = (tipo.equals("08 00"))?"IP":"Otro";
                                 
                                 System.out.println("MAC Destino: "+macD);
                                 System.out.println("MAC Origen: "+macO);
                                 System.out.println("Tipo: "+tipo);
+                                System.out.println("Protocolo: "+protocolo);
                                 System.out.println();
 			}
 		};
@@ -130,7 +134,7 @@ public class Practica2Redes {
 		 * the loop method exists that allows the programmer to sepecify exactly
 		 * which protocol ID to use as the data link type for this pcap interface.
 		 **************************************************************************/
-		pcap.loop(10, jpacketHandler, "");
+		pcap.loop(20, jpacketHandler, "");
 
 		/***************************************************************************
 		 * Last thing to do is close the pcap handle
