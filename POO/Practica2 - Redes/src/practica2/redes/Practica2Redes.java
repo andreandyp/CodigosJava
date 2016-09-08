@@ -81,7 +81,7 @@ public class Practica2Redes {
 
                        /********F I L T R O********/
             PcapBpfProgram filter = new PcapBpfProgram();
-            String expression =""; // "port 80";
+            String expression ="port 123"; // "port 80";
             int optimize = 0; // 1 means true, 0 means false
             int netmask = 0;
             int r2 = pcap.compile(filter, expression, optimize, netmask);
