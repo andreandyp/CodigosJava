@@ -115,7 +115,24 @@ public class Practica2Redes {
                                 macD = hexadecimal.substring(6, 24);
                                 macO = hexadecimal.substring(25, 43);
                                 tipo = hexadecimal.substring(45,50);
-                                protocolo = (tipo.equals("08 00"))?"IP":"Otro";
+                                protocolo = (tipo.equals("08 00"))?"IPv4":
+                                        (tipo.equals("86 dd"))?"IPv6":
+                                        (tipo.equals("02 00"))?"Xerox PUP":
+                                        (tipo.equals("08 03"))?"ECMA Internet":
+                                        (tipo.equals("08 02"))?"NBS Internet":
+                                        (tipo.equals("02 00"))?"Xerox PUP":
+                                        (tipo.equals("08 07"))?"XNS Compatibility":
+                                        (tipo.equals("09 00"))?"Ungermann-Bass network debugger":
+                                        (tipo.equals("80 69"))?"AT&T":
+                                        (tipo.equals("80 9b"))?"EtherTalk":
+                                        (tipo.equals("81 91"))?"PowerLAN":
+                                        (tipo.equals("08 01"))?"X.75 Internet":
+                                        (tipo.equals("08 04"))?"CHAOSnet":
+                                        (tipo.equals("08 06"))?"Address Resolution Protocol (ARP)":
+                                        (tipo.equals("04 00"))?"Nixdorf":
+                                        (tipo.equals("60 09"))?"DEC MUMPS":
+                                        (tipo.equals("80 c7"))?"Applitek Corporation":
+                                        (tipo.equals("00 69"))?"ARP":"Otro";
                                 
                                 System.out.println("MAC Destino: "+macD);
                                 System.out.println("MAC Origen: "+macO);
