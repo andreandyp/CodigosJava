@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="jquery-2.2.4.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var circulos = 1;
+                $("#agregar").click(function () {
+                    var l1 = "<br>Posición X: <input type='number' name='x"+circulos+"' maxlength='3'/>";
+                    var l2 = "<br>Posición Y: <input type='number' name='y"+circulos+"' maxlength='3'/>";
+                    var l3 = "<br>Radio: <input type='number' name='r"+circulos+"' maxlength='3'/><br>";
+                    $("#coordenadas").append(l1,l2,l3);
+                    $("#numero").attr("value", circulos);
+                    circulos++;
+                });
+});
+        </script>
+    </head>
+    <body>
+        <div>
+            <h3>Circulos con canvas</h3>
+            <button id="agregar">Agregar círculos</button>
+            <form action="canvas" method="POST" id="coordenadas">
+                <input type="hidden" id="numero" name="numero" value=""/><br>
+                <input type="submit" value="Crear círculos" />
+            </form>
+        </div>
+    </body>
+</html>

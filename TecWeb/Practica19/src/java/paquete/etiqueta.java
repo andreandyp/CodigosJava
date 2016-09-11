@@ -69,5 +69,4 @@ public class etiqueta extends HttpServlet {
             out.println("</html>");
         }
     }
-
 }
