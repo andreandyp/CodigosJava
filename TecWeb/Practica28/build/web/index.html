@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Listas 2</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var elementos = 1;
+                $("#agregar").click(function () {
+                    var l1 = "<br>Elemento "+elementos+": <input type='text' name='elemento"+elementos+"' /><br>";
+                    $("#e").append(l1);
+                    $("#nelementos").attr("value",elementos);
+                    elementos++;
+            });
+});
+
+        </script>
+    </head>
+    <body>
+        <div>
+            <button id="agregar">Agregar elementos</button>
+            <form method="post" action="lista" id="e">
+                <input type="hidden" name="nelementos" value="" id="nelementos" />
+                <input type="submit" value="Crear lista desordenada"/>
+            </form>
+        </div>
+    </body>
+</html>
