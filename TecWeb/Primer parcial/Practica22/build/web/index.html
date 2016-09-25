@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NAV</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="jquery-2.2.4.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                var links = 1;
+                $("#agregar").click(function () {
+                    var l1 = "<br>Enlace <input type='text' name='e"+links+"' value='http://' />";
+                    $("#lista").append(l1);
+                    $("#numero").attr("value", links);
+                    links++;
+                });
+});
+        </script>
+    </head>
+    <body>
+        <div>
+            <h3>Nav con enlaces</h3>
+            <button id="agregar">Agregar enlaces</button>
+            <form action="enlaces" method="POST" id="lista">
+                <input type="hidden" id="numero" name="numero" value=""/><br>
+                <input type="submit" value="Crear barra de navegación" />
+            </form>
+        </div>
+    </body>
+</html>

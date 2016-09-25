@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE raiz[
+<!ELEMENT raiz (elemento1,elemento2,elemento3)>
+<!ELEMENT elemento1 EMPTY>
+<!ELEMENT elemento2 (#PCDATA)>
+<!ELEMENT elemento3 (elemento3.1 | elemento3.2)>
+<!ELEMENT elemento3.1 (#PCDATA)>
+<!ELEMENT elemento3.2 (#PCDATA)>
+]>
+<raiz>
+  <elemento1></elemento1>
+  <elemento2>Esto va a ser "parseado" por un alguna biblioteca fea como JDOM</elemento2>
+  <elemento3>
+    <elemento3.1>Esto no se va a "parsear"</elemento3.1>  
+  </elemento3>
+</raiz>
