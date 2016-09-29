@@ -1,0 +1,4 @@
+<!ELEMENT materias (materia+)>
+<!ELEMENT materia (#PCDATA)>
+<!ATTLIST materia
+          tipo CDATA #REQUIRED>

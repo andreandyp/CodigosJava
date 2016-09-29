@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE abuelo SYSTEM "dtd7.dtd">
+<abuelo>
+  <padre>
+    <hijo>
+    </hijo>  
+    <hija>
+    </hija>
+  </padre>
+</abuelo>
