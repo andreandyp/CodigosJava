@@ -1,0 +1,4 @@
+{
+    "admins":[{"usuario":"Andre","clave":"huehuehue"},{"usuario":"Gizela","clave":"caramelo"}],
+    "usuarios":[{"usuario":"u1","clave":"123451"},{"usuario":"u2","clave":"123452"}]
+}
