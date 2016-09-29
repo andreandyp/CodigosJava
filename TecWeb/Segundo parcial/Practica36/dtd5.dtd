@@ -1,0 +1,9 @@
+<!ELEMENT lenguajes (Romance, Germano, Eslavo, Amerindio, Artificial*)>
+<!ELEMENT Romance (lenguaje+)>
+<!ELEMENT lenguaje (#PCDATA)>
+<!ATTLIST lenguaje
+          variante CDATA #REQUIRED>
+<!ELEMENT Germano (lenguaje+)>
+<!ELEMENT Eslavo (lenguaje*)>
+<!ELEMENT Amerindio (lenguaje+)>
+<!ELEMENT Artificial (#PCDATA)>
