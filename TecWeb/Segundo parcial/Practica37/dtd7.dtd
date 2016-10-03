@@ -1,0 +1,5 @@
+<!ELEMENT canciones (canción+)>
+<!ELEMENT canción (#PCDATA)>
+<!ATTLIST canción
+          artista NMTOKENS #REQUIRED
+          estado NMTOKENS #REQUIRED>

@@ -1,0 +1,14 @@
+<!ELEMENT biblioteca (compra | libro | préstamo)+>
+<!ELEMENT libro (#PCDATA)>
+<!ATTLIST libro
+          autor CDATA #REQUIRED
+          id ID #REQUIRED>
+<!ELEMENT compra (#PCDATA)>
+<!ATTLIST compra
+          fechaCompra CDATA #REQUIRED
+          libro IDREF #REQUIRED>
+<!ELEMENT préstamo (#PCDATA)>
+<!ATTLIST préstamo
+          fechaPrestamo CDATA #REQUIRED
+          fechaRegreso CDATA #REQUIRED
+          libro IDREF #REQUIRED>

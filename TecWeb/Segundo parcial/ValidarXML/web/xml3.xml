@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuración SYSTEM "dtd3.dtd">
+<configuración>
+  <lenguajes>
+    <lenguaje parte="modelo">MongoDB</lenguaje>
+    <lenguaje parte="modelo">Express</lenguaje>
+    <lenguaje parte="controlador">Node.js</lenguaje>
+    <lenguaje parte="controlador">Angular.js</lenguaje>
+    <lenguaje parte="vista">Angular.js</lenguaje>
+  </lenguajes>
+  <clientes>
+    <cliente tipo="nativo">App iOS</cliente>
+    <cliente tipo="nativo">App WP</cliente>
+    <cliente tipo="nativo">App Android</cliente>
+    <cliente tipo="navegador">Chrome</cliente>
+  </clientes>
+  <servidores>
+    <servidor entorno="PaaS">Microsoft Azure</servidor>
+    <servidor entorno="PaaS">Amazon Web Services</servidor>
+    <servidor entorno="Local">Ngnix</servidor>
+  </servidores>
+</configuración>

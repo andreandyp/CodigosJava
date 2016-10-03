@@ -1,0 +1,10 @@
+<!ELEMENT horario (grupo+, alumno)>
+<!ELEMENT grupo (#PCDATA)>
+<!ATTLIST grupo
+          horario CDATA #REQUIRED
+          id ID #REQUIRED>
+<!ELEMENT alumno (#PCDATA)>
+<!ATTLIST alumno
+          grupo IDREFS #REQUIRED
+          regular CDATA #REQUIRED
+          nivel CDATA #REQUIRED>
