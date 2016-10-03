@@ -1,0 +1,4 @@
+<!ELEMENT libros (libro)>
+<!ELEMENT libro (#PCDATA)>
+<!ATTLIST libro
+          formato (PDF|ePUB|Físico) #REQUIRED>

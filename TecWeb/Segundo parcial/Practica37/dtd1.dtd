@@ -1,0 +1,5 @@
+<!ELEMENT frameworks (framework)>
+<!ELEMENT framework (#PCDATA)>
+<!ATTLIST framework
+          lenguaje CDATA #REQUIRED
+          uso CDATA #REQUIRED>
