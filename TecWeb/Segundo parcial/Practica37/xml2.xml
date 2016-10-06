@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE libros SYSTEM "dtd2.dtd">
 <libros>
-  <libro formato="Físico">Diccionario RAE</libro>
+  <libro estado="nuevo">Diccionario RAE</libro>
 </libros>
