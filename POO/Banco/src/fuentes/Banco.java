@@ -11,7 +11,8 @@ public class Banco {
     public void agregaCliente(String nom, String numCta){
         Cliente c = new Cliente(nom);
         Cuenta cta = new Cuenta(50000.0);
-        //clientes[++numClientes];x 
+        //clientes[++numClientes];x
+        /*Falta método para agregar clientes*/
     }
     
     public int obtenerNumClientes(){
