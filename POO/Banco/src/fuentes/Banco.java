@@ -11,7 +11,7 @@ public class Banco {
     public void agregaCliente(String nom, String numCta){
         Cliente c = new Cliente(nom);
         Cuenta cta = new Cuenta(50000.0);
-        //clientes[++numClientes];
+        //clientes[++numClientes];x 
     }
     
     public int obtenerNumClientes(){
@@ -23,7 +23,7 @@ public class Banco {
         return null;
     }
     public void imprimirCliente(){
-        for (int i = 0; i < clientes.length; i++) {
+        for (int i = 0; i < numClientes; i++) {
             Cliente cliente = clientes[i];
             System.out.println("Nombre: "+cliente.obtenerNombre());
             System.out.println("Saldo: "+cliente.obtenerCuenta().consultar());
