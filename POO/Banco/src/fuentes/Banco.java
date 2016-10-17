@@ -8,11 +8,14 @@ public class Banco {
         clientes = new Cliente[5];
     }
     
-    public void agregaCliente(String nom, String numCta){
+    public void agregaCliente(String nom){
         Cliente c = new Cliente(nom);
         Cuenta cta = new Cuenta(50000.0);
-        //clientes[++numClientes];x
-        /*Falta método para agregar clientes*/
+        c.establecerCuenta(cta);
+        if(numClientes == 4)
+            System.out.println("Ya no se pueden agregar mas clientes");
+        else
+            clientes[++numClientes] = c;
     }
     
     public int obtenerNumClientes(){
@@ -23,8 +26,8 @@ public class Banco {
             return clientes[indice];
         return null;
     }
-    public void imprimirCliente(){
-        for (int i = 0; i < numClientes; i++) {
+    public void imprimirClientes(){
+        for (int i = 0; i <= numClientes; i++) {
             Cliente cliente = clientes[i];
             System.out.println("Nombre: "+cliente.obtenerNombre());
             System.out.println("Saldo: "+cliente.obtenerCuenta().consultar());

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE celulares [
+<!ELEMENT celulares (celular+)>
+<!ELEMENT celular (#PCDATA)>
+<!ATTLIST celular
+          marca (LG | Microsoft | Sony) #REQUIRED>
+]>
+<celulares>
+  <celular marca="LG">Magna</celular>
+  <celular marca="Microsoft">Lumia 550</celular>
+</celulares>

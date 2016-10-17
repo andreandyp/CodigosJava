@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE recursos[
+<!ELEMENT recursos (archivos+)>
+<!ELEMENT archivos (#PCDATA)>
+<!ATTLIST archivos
+          tipo CDATA #REQUIRED>
+          <!NOTATION mp3 SYSTEM "audio/mp3">
+<!NOTATION wma SYSTEM "audio/wma">
+<!NOTATION wav SYSTEM "audio/wav">
+]>
+<recursos>
+  <archivos tipo="mp3"></archivos>
+  <archivos tipo="wma"></archivos>
+  <archivos tipo="wav"></archivos>
+</recursos>

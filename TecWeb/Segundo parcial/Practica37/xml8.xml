@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE informacion[
+<!ELEMENT informacion (#PCDATA)>
+<!ENTITY nombre "André Michel">
+<!ENTITY usuariotwitter "@AndreAndyP">
+<!ENTITY sitioweb "https://andreandyp.github.io">
+]>
+<informacion>&nombre;&usuariotwitter;&sitioweb;</informacion>
