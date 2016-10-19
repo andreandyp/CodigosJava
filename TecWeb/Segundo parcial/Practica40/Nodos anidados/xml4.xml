@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<taxonomía xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd4.xsd">
+  <dominio>
+    <reino>
+      <phylum>
+        <clase>
+          <orden>
+            <familia>
+              <género>
+                <especie>
+                  <subespecie/>
+                </especie>
+              </género>
+            </familia>
+          </orden>
+        </clase>      
+      </phylum>    
+    </reino>
+  </dominio>
+</taxonomía>
