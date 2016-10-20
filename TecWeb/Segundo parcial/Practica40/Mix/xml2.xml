@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<traducciones propias="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd2.xsd">
+  (Pueden haber o no variantes de las traducciones)
+  <español variante="México">Hola, me llamo André.</español>
+  <español variante="España">Hola, mi nombre es André</español>
+  <esperanto variante="">Saluton, mia nomo estas Andreo</esperanto>
+  <francés variante="Francia">Bonjour, mon nom est André</francés>
+  <portugués variante="Brasil">Olá, meu nome é Andres</portugués>
+</traducciones>

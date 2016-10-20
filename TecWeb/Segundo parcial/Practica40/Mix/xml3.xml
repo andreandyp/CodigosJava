@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<alimentos solobebidas="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd3.xsd">
+  <bebidas>
+    Son sólo ejemplos
+    <alcohol>Tequila</alcohol>  
+    <alcohol>Cerveza</alcohol>
+    <alcohol>Vodka</alcohol>
+    <agua>Simple</agua>
+    <agua>Limon</agua>
+    <agua>Jamaica</agua>
+  </bebidas>
+</alimentos>
