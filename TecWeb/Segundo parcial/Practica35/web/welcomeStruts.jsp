@@ -8,7 +8,6 @@
 <html:html lang="true">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="refresh" content="0; url=http://localhost:8080/Practica5/index.html" />
         <title><bean:message key="welcome.title"/></title>
         <html:base/>
     </head>
