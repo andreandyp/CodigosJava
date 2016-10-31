@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Inserta el titulo aquí :P</title>
+        <script src="js/fabric.min.js"></script>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script>
+            $(function(){
+                var hue = 0;
+                var largo = $(window).width();
+                var ancho = $(window).height();
+                var plano = new fabric.Canvas("plano");
+                var ejeX = new fabric.Line([0,ancho/2,largo,ancho/2],{
+                    stroke: 'black',
+                    strokeWidth: 5,
+                    selectable: false
+                });
+                var ejeY = new fabric.Line([largo/2,0,largo/2,ancho],{
+                    stroke: 'black',
+                    strokeWidth: 5,
+                    selectable: false
+                });
+                var lineasV = new fabric.Line([],{
+                    stroke: 'black',
+                    strokeWidth: 2,
+                    selectable: false
+                });
+
+                plano.add(ejeX);
+                plano.add(ejeY);
+                $(window).resize(function(e){
+                    largo = $(window).width();
+                    ancho = $(window).height();
+                    dibujarEjes(ejeX,ejeY,largo,ancho);
+                });
+
+
+                
+
+                function dibujarEjes(eX,eY,lar,anc){
+                    eX.set({'x1':0,'y1':anc/2,'x2':lar,'y2':anc/2});
+                    eY.set({'x1':lar/2,'y1':0,'x2':lar/2,'y2':anc});
+                    plano.renderAll();
+                }
+            });
+        </script>
+        <style type="text/css">
+            #pantalla{
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            #plano{
+                position: fixed;
+                background-color: #FFFFE0;
+                width: 100%;
+            }
+        </style>
+	</head>
+	<body>
+		<div id="pantalla">
+            <canvas id="plano" width="1920" height="1080"></canvas>
+        </div>
+	</body>
+</html>
