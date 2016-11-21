@@ -16,41 +16,36 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try{
-            String usuarioR,claveR,usuarioA,claveA,usuarioU,claveU,resultado = "";
-            JSONObject adm,usu,archivoJSON;
-            JSONArray admins,usuarios;
-            Iterator iter1,iter2;
+            String usuarioR,claveR,usuarioU,claveU,tipoU,respuesta = "";
+            JSONArray sistema;
+            JSONObject usu;
+            Iterator iter1;
             usuarioR = request.getParameter("usuario");
             claveR = request.getParameter("clave");
             
             JSONParser parser = new JSONParser();
-            Object json = parser.parse(new FileReader(getServletContext().getRealPath("/")+"/datos.json"));
-            archivoJSON = (JSONObject) json;
-            admins = (JSONArray) archivoJSON.get("admins");
-            usuarios = (JSONArray) archivoJSON.get("usuarios");
-            iter1 = admins.iterator();
-            iter2 = usuarios.iterator();
+            JSONObject json = (JSONObject) parser.parse(new FileReader(getServletContext().getRealPath("/")+"/datos.json"));
+            sistema = (JSONArray) json.get("sistema");
+            iter1 = sistema.iterator();
             
-            while (iter1.hasNext() && iter2.hasNext()) {
-                adm = (JSONObject) iter1.next();
-                usu = (JSONObject) iter2.next();
-                usuarioA = (String) adm.get("usuario");
-                claveA = (String) adm.get("clave");
+            while (iter1.hasNext()) {
+                usu = (JSONObject) iter1.next();
                 usuarioU = (String) usu.get("usuario");
                 claveU = (String) usu.get("clave");
-                if((usuarioA.equals(usuarioR) && claveA.equals(claveR)) || (usuarioU.equals(usuarioR) && claveU.equals(claveR))){
-                    resultado = "Datos correctos";
+                tipoU = (String) usu.get("tipo");
+                if((usuarioU.equals(usuarioR) && claveU.equals(claveR))){
+                    respuesta = tipoU;
                     break;
-                }else
-                    resultado = "Datos incorrectos";
+                }else{
+                    respuesta = "";
+                }
             }
-            out.println(resultado);
-            
-        }catch (ParseException ex) {
-            response.sendError(500,"Error en el JSON");
+            response.getWriter().write(respuesta); 
+        }catch (IOException | ParseException ex) {
+            response.getWriter().write("null"); 
             out.close();
         }
     }

@@ -1,4 +1,6 @@
 {
-    "admins":[{"usuario":"Andre","clave":"huehuehue"},{"usuario":"Gizela","clave":"caramelo"}],
-    "usuarios":[{"usuario":"u1","clave":"123451"},{"usuario":"u2","clave":"123452"}]
+    "sistema":[
+        {"usuario":"alumno","clave":"alumno","tipo":"1"},
+        {"usuario":"Gizela","clave":"macarelo","tipo":"2"},
+        {"usuario":"Andre","clave":"huehuehue","tipo":"3"}]
 }

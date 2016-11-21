@@ -3,29 +3,67 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Inserta el titulo aquí :P</title>
-        <script src="js/fabric.min.js"></script>
         <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/plano.js"></script>
-        <script src="js/graficador.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+        <script src="https://wzrd.in/standalone/function-plot@1.17.3"></script>
+        <script src="js/grafica.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css"></link>
         <style type="text/css">
             #pantalla{
+                background-color: #FFFFE0;
                 position: fixed;
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 100%;
+                height: 80%;
             }
-            #plano{
+            #grafica{
                 position: fixed;
-                background-color: #FFFFE0;
+                top: 0;
+                left: 10%;
+                width: 80%;
+                height: 80%;   
+            }
+            #controles{
+                position: fixed;
+                top: 80%;
+                left: 0;
                 width: 100%;
             }
         </style>
 	</head>
 	<body>
-		<div id="pantalla">
-            <button id="graficar">Graficar</button>
-            <canvas id="plano" width="1920" height="1080"/>
+        <div id="pantalla">
+            <div id="grafica"></div>
+        </div>
+        <div id="controles">
+            <div class="row">
+                <div class="col-sm-2" >
+                    <h4>ax<sup>2</sup></h4>
+                    <input type="checkbox" id="ax2-l" checked="true"/>Mostrar<br>
+                    Valor: <input type="text" id="ax2-v" size="2" maxlength="2"><br>
+                    <input type="range" name="ax2-r" min="0" max="10"><br>
+                </div>
+                <div class="col-sm-2">
+                    <h4>bx</h4>
+                    <input type="checkbox" id="bx-l" checked="true"/>Mostrar<br>
+                    Valor: <input type="text" id="bx-v" size="2" maxlength="2"><br>
+                    <input type="range" name="bx-r" min="0" max="10"><br>
+                </div>
+                <div class="col-sm-2">
+                    <h4>c</h4>
+                    <input type="checkbox" id="c-l" checked="true"/>Mostrar<br>
+                    Valor: <input type="text" id="c-v" size="2" maxlength="2"><br>
+                    <input type="range" name="c-r" min="0" max="10"><br>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button">Valores iniciales</button><br>
+                    <button type="button">Guardar</button><br>
+                    <button type="button">Acerca de</button><br>
+                </div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2"></div>
+            </div>
         </div>
 	</body>
 </html>
