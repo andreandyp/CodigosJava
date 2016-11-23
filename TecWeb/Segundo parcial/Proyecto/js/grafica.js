@@ -1,17 +1,17 @@
 var ecuaciones = [{
-            fn: "x^2",
+            fn: "0",
             color: "transparent",
             skipTip: true
         },{
-            fn: "x",
+            fn: "0",
             color: "transparent",
             skipTip: true 
         },{
-            fn: "1",
+            fn: "0",
             color: "transparent",
             skipTip: true 
         },{
-            fn: "x^2+x+1",
+            fn: "0",
             color: "red",
             skipTip: true
         }];
@@ -36,6 +36,7 @@ $(function () {
 	var largo = $("#grafica").width();
     var ancho = $("#grafica").height();
 	graficador(largo,ancho);
+    valoresPredet();
 
 	$(window).resize(function(e){
         largo = $("#grafica").width();
@@ -67,16 +68,19 @@ $(function () {
         $("#ax2-r").val(valor);
         functionPlot(app);
     });
-    $("#ax2-r").mousemove(function () {
-        var valor = $("#ax2-r").val()
-        if(!valor){
-            valor = 0;
-        }
-        ecuaciones[0].fn = valor + "x^2";
-        ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-        app.data = ecuaciones;
-        $("#ax2-v").val(valor);
-        functionPlot(app);
+    $("#ax2-r").mousedown(function () {
+        $("#ax2-r").mousemove(function () {
+            var valor = $("#ax2-r").val()
+            if(!valor){
+                valor = 0;
+            }
+            ecuaciones[0].fn = valor + "x^2";
+            ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
+            app.data = ecuaciones;
+            $("#ax2-v").val(valor);
+            functionPlot(app);
+        });
+        
     });
     $("#bx-l").change(function () {
         if(terminoL){
@@ -103,16 +107,18 @@ $(function () {
         $("#bx-r").val(valor);
         functionPlot(app);
     });
-    $("#bx-r").mousemove(function () {
-        var valor = $("#bx-r").val()
-        if(!valor){
-            valor = 0;
-        }
-        ecuaciones[0].fn = valor + "x";
-        ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-        app.data = ecuaciones;
-        $("#bx-v").val(valor);
-        functionPlot(app);
+    $("#bx-r").mousedown(function () {
+        $("#bx-r").mousemove(function () {
+            var valor = $("#bx-r").val()
+            if(!valor){
+                valor = 0;
+            }
+            ecuaciones[1].fn = valor + "x";
+            ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
+            app.data = ecuaciones;
+            $("#bx-v").val(valor);
+            functionPlot(app);
+        });
     });
     $("#c-l").change(function(){
         if(terminoI){
@@ -128,9 +134,50 @@ $(function () {
             terminoI = true;
         }
     });
+    $("#c-v").keyup(function () {
+        var valor = $("#c-v").val()
+        if(!valor){
+            valor = 0;
+        }
+        ecuaciones[2].fn = valor;
+        ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
+        app.data = ecuaciones;
+        $("#c-r").val(valor);
+        functionPlot(app);
+    });
+    $("#c-r").mousedown(function () {
+        $("#c-r").mousemove(function () {
+            var valor = $("#c-r").val()
+            if(!valor){
+                valor = 0;
+            }
+            ecuaciones[2].fn = valor;
+            ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
+            app.data = ecuaciones;
+            $("#c-v").val(valor);
+            functionPlot(app);
+        });
+    });
+    $("#ceros").click(function () {
+        valoresPredet();
+    });
 });
 function graficador(larg,anch) {
     app.width = larg;
     app.height = anch;
 	functionPlot(app);
+}
+function valoresPredet() {
+    $("#ax2-v").val(0);
+    $("#ax2-r").val(0);
+    $("#bx-v").val(0);
+    $("#bx-r").val(0);
+    $("#c-v").val(0);
+    $("#c-r").val(0);
+    ecuaciones[0].fn = "0";
+    ecuaciones[1].fn = "0";
+    ecuaciones[2].fn = "0";
+    ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
+    app.data = ecuaciones;
+    functionPlot(app);
 }

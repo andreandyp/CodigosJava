@@ -39,12 +39,27 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Acerca de este proyecto</h4>
+                        <h4 class="modal-title">Graficador Jendre</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Some text in the modal.</p>
+                        <h6>Desarrolladores</h6>
+                        <ul>
+                            <li><a href="https://andreandyp.github.io">André Michel</a></li>
+                            <li>Jessica Areli</li>
+                            <li>Andrés</li>
+                        </ul>
+                        <h6>Frameworks usados</h6>
+                        <ul>
+                            <li><a href="">Twitter Bootstrap</a></li>
+                            <li><a href="">jQuery</a></li>
+                            <li><a href="">D3</a></li>
+                            <li><a href="">Function Plot</a></li>
+                        </ul>
+                        <p>Esta aplicación...</p>
+
                     </div>
                     <div class="modal-footer">
+                    <p>Versión Java</p>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
@@ -60,22 +75,22 @@
                     <h4>ax<sup>2</sup></h4>
                     <input type="checkbox" id="ax2-l"/>Mostrar<br>
                     Valor: <input type="text" id="ax2-v" size="2" maxlength="2"><br>
-                    <input type="range" id="ax2-r" min="0" max="10"><br>
+                    <input type="range" id="ax2-r" min="-50" max="50" step="2"><br>
                 </div>
                 <div class="col-sm-3">
                     <h4>bx</h4>
                     <input type="checkbox" id="bx-l"/>Mostrar<br>
                     Valor: <input type="text" id="bx-v" size="2" maxlength="2"><br>
-                    <input type="range" id="bx-r" min="0" max="10"><br>
+                    <input type="range" id="bx-r" min="-50" max="50" step="2"><br>
                 </div>
                 <div class="col-sm-3">
                     <h4>c</h4>
                     <input type="checkbox" id="c-l"/>Mostrar<br>
                     Valor: <input type="text" id="c-v" size="2" maxlength="2"><br>
-                    <input type="range" id="c-r" min="0" max="10"><br>
+                    <input type="range" id="c-r" min="-50" max="50" step="2"><br>
                 </div>
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-danger">Valores iniciales</button>
+                    <button type="button" id="ceros" class="btn btn-danger">Valores iniciales</button>
                     <button type="button" class="btn btn-success">Guardar</button>
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#acercaDe">Acerca de</button>
                 </div>
