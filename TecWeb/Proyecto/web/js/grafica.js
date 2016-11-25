@@ -28,17 +28,17 @@ var app = {
         yAxis:{
             label: "Eje Y"
         }
-    }
+    };
 $(function () {
     var terminoC = false;
     var terminoL = false;
     var terminoI = false;
-	var largo = $("#grafica").width();
+    var largo = $("#grafica").width();
     var ancho = $("#grafica").height();
-	graficador(largo,ancho);
+    graficador(largo,ancho);
     valoresPredet();
 
-	$(window).resize(function(e){
+    $(window).resize(function(e){
         largo = $("#grafica").width();
     	ancho = $("#grafica").height();
         graficador(largo,ancho);
@@ -158,8 +158,14 @@ $(function () {
             functionPlot(app);
         });
     });
-    $("#ceros").click(function () {
+    $("#ini").click(function () {
         valoresPredet();
+    });
+    $("#ceros").click(function(){
+        ceros();
+    });
+    $("#descargar").click(function(){
+        descargarJSON();
     });
 });
 function graficador(larg,anch) {
@@ -168,6 +174,20 @@ function graficador(larg,anch) {
 	functionPlot(app);
 }
 function valoresPredet() {
+    $("#ax2-v").val(a);
+    $("#ax2-r").val(a);
+    $("#bx-v").val(b);
+    $("#bx-r").val(b);
+    $("#c-v").val(c);
+    $("#c-r").val(c);
+    ecuaciones[0].fn = a+"x^2";
+    ecuaciones[1].fn = b+"x";
+    ecuaciones[2].fn = c.toString();
+    ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
+    app.data = ecuaciones;
+    functionPlot(app);
+}
+function ceros() {
     $("#ax2-v").val(0);
     $("#ax2-r").val(0);
     $("#bx-v").val(0);
@@ -180,4 +200,19 @@ function valoresPredet() {
     ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
     app.data = ecuaciones;
     functionPlot(app);
+}
+function descargarJSON(){
+    var a = $("#ax2-v").val();
+    var b = $("#bx-v").val();
+    var c = $("#c-v").val();
+    var objetoJSON = {
+        a: a,
+        b: b,
+        c: c
+    };
+    var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(objetoJSON));
+    $("#desjson").attr("href","data:"+json);
+    //Porque jQuery omite las etiquetas a al usar click();
+    //Así que uso VanillaJS
+    document.getElementById("desjson").click();
 }
