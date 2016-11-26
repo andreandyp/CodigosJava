@@ -51,14 +51,14 @@ $(function () {
             terminoC = false;
         }
         else{
-            ecuaciones[0].color = "pink";
+            ecuaciones[0].color = "#f0f";
             app.data = ecuaciones;
             functionPlot(app);
             terminoC = true;
         }
     });
     $("#ax2-v").keyup(function () {
-        var valor = $("#ax2-v").val()
+        var valor = $("#ax2-v").val();
         if(!valor){
             valor = 0;
         }
@@ -67,10 +67,14 @@ $(function () {
         app.data = ecuaciones;
         $("#ax2-r").val(valor);
         functionPlot(app);
+        $("#ecuacion").empty();
+        var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+        ecu = ecu.replace("x^2","x<sup>2</sup>");
+        $("#ecuacion").append(ecu);
     });
     $("#ax2-r").mousedown(function () {
         $("#ax2-r").mousemove(function () {
-            var valor = $("#ax2-r").val()
+            var valor = $("#ax2-r").val();
             if(!valor){
                 valor = 0;
             }
@@ -79,6 +83,10 @@ $(function () {
             app.data = ecuaciones;
             $("#ax2-v").val(valor);
             functionPlot(app);
+            $("#ecuacion").empty();
+            var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+            ecu = ecu.replace("x^2","x<sup>2</sup>");
+            $("#ecuacion").append(ecu);
         });
         
     });
@@ -97,7 +105,7 @@ $(function () {
         }
     });
     $("#bx-v").keyup(function () {
-        var valor = $("#bx-v").val()
+        var valor = $("#bx-v").val();
         if(!valor){
             valor = 0;
         }
@@ -106,10 +114,14 @@ $(function () {
         app.data = ecuaciones;
         $("#bx-r").val(valor);
         functionPlot(app);
+        $("#ecuacion").empty();
+        var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+        ecu = ecu.replace("x^2","x<sup>2</sup>");
+        $("#ecuacion").append(ecu);
     });
     $("#bx-r").mousedown(function () {
         $("#bx-r").mousemove(function () {
-            var valor = $("#bx-r").val()
+            var valor = $("#bx-r").val();
             if(!valor){
                 valor = 0;
             }
@@ -118,6 +130,10 @@ $(function () {
             app.data = ecuaciones;
             $("#bx-v").val(valor);
             functionPlot(app);
+            $("#ecuacion").empty();
+            var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+            ecu = ecu.replace("x^2","x<sup>2</sup>");
+            $("#ecuacion").append(ecu);
         });
     });
     $("#c-l").change(function(){
@@ -135,7 +151,7 @@ $(function () {
         }
     });
     $("#c-v").keyup(function () {
-        var valor = $("#c-v").val()
+        var valor = $("#c-v").val();
         if(!valor){
             valor = 0;
         }
@@ -144,10 +160,14 @@ $(function () {
         app.data = ecuaciones;
         $("#c-r").val(valor);
         functionPlot(app);
+        $("#ecuacion").empty();
+        var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+        ecu = ecu.replace("x^2","x<sup>2</sup>");
+        $("#ecuacion").append(ecu);
     });
     $("#c-r").mousedown(function () {
         $("#c-r").mousemove(function () {
-            var valor = $("#c-r").val()
+            var valor = $("#c-r").val();
             if(!valor){
                 valor = 0;
             }
@@ -156,6 +176,10 @@ $(function () {
             app.data = ecuaciones;
             $("#c-v").val(valor);
             functionPlot(app);
+            $("#ecuacion").empty();
+            var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+            ecu = ecu.replace("x^2","x<sup>2</sup>");
+            $("#ecuacion").append(ecu);
         });
     });
     $("#ini").click(function () {
@@ -166,6 +190,25 @@ $(function () {
     });
     $("#descargar").click(function(){
         descargarJSON();
+        $("#estado").html("Descargando JSON");
+    });
+    $("#abrir").change(function(){
+        var archivo = document.getElementById("abrir").files[0];
+        if (archivo) {
+            var reader = new FileReader();
+            reader.readAsText(archivo, "UTF-8");
+            reader.onload = function (evt) {
+                var coeficientes = JSON.parse(evt.target.result);
+                establecer(coeficientes.a,coeficientes.b,coeficientes.c);
+                $("#estado").html("Valores del JSON establecidos");
+            };
+            reader.onerror = function (evt) {
+                alert("Error en el archivo");
+            };
+        }
+    });
+    $("#limpiar").click(function(){
+        $("#estado").empty();
     });
 });
 function graficador(larg,anch) {
@@ -186,6 +229,28 @@ function valoresPredet() {
     ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
     app.data = ecuaciones;
     functionPlot(app);
+    $("#ecuacion").empty();
+    var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+    ecu = ecu.replace("x^2","x<sup>2</sup>");
+    $("#ecuacion").append(ecu);
+}
+function establecer(a,b,c){
+    $("#ax2-v").val(a);
+    $("#ax2-r").val(a);
+    $("#bx-v").val(b);
+    $("#bx-r").val(b);
+    $("#c-v").val(c);
+    $("#c-r").val(c);
+    ecuaciones[0].fn = a+"x^2";
+    ecuaciones[1].fn = b+"x";
+    ecuaciones[2].fn = c.toString();
+    ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
+    app.data = ecuaciones;
+    functionPlot(app);
+    $("#ecuacion").empty();
+    var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+    ecu = ecu.replace("x^2","x<sup>2</sup>");
+    $("#ecuacion").append(ecu);
 }
 function ceros() {
     $("#ax2-v").val(0);
@@ -194,12 +259,16 @@ function ceros() {
     $("#bx-r").val(0);
     $("#c-v").val(0);
     $("#c-r").val(0);
-    ecuaciones[0].fn = "0";
-    ecuaciones[1].fn = "0";
+    ecuaciones[0].fn = "0x^2";
+    ecuaciones[1].fn = "0x";
     ecuaciones[2].fn = "0";
     ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
     app.data = ecuaciones;
     functionPlot(app);
+    $("#ecuacion").empty();
+    var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+    ecu = ecu.replace("x^2","x<sup>2</sup>");
+    $("#ecuacion").append(ecu);
 }
 function descargarJSON(){
     var a = $("#ax2-v").val();

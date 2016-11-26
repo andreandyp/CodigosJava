@@ -1,0 +1,36 @@
+#pantalla{
+    background-color: #FFFFE0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 77%;
+}
+#desjson{
+    display: none;
+}
+h4{
+    text-align: center;
+}
+#grafica{
+    position: fixed;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 76%;   
+}
+#controles{
+    position: fixed;
+    top: 78%;
+    left: 0;
+    width: 100%;
+}
+#ax2-e{
+    color: #f0f;
+}
+#bx-e{
+    color: green;
+}
+#c-e{
+    color: blue;
+}
