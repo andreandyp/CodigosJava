@@ -25,9 +25,9 @@
                 c = "0"; 
         %>
         <script>
-            var a = <%out.println(a);%>;
-            var b = <%out.println(b);%>;
-            var c = <%out.println(c);%>;
+            var aIni = <%out.println(a);%>;
+            var bIni = <%out.println(b);%>;
+            var cIni = <%out.println(c);%>;
         </script>
         <script src="js/grafica.js"></script>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>

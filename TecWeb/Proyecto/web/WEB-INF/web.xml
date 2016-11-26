@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	 version="3.1">
     <servlet>
-        <servlet-name>GenerarJSON</servlet-name>
-        <servlet-class>paquete.GenerarJSON</servlet-class>
+        <servlet-name>Servlet</servlet-name>
+        <servlet-class>paquete.Servlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GenerarJSON</servlet-name>
-        <url-pattern>/GenerarJSON</url-pattern>
+        <servlet-name>Servlet</servlet-name>
+        <url-pattern>/Servlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -36,13 +36,14 @@ $(function () {
     var largo = $("#grafica").width();
     var ancho = $("#grafica").height();
     graficador(largo,ancho);
-    valoresPredet();
+    establecer(aIni,bIni,cIni);
 
     $(window).resize(function(e){
         largo = $("#grafica").width();
     	ancho = $("#grafica").height();
         graficador(largo,ancho);
     });
+
     $("#ax2-l").change(function () {
         if(terminoC){
             ecuaciones[0].color = "transparent";
@@ -59,34 +60,18 @@ $(function () {
     });
     $("#ax2-v").keyup(function () {
         var valor = $("#ax2-v").val();
-        if(!valor){
+        if(!valor)
             valor = 0;
-        }
-        ecuaciones[0].fn = valor + "x^2";
-        ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-        app.data = ecuaciones;
         $("#ax2-r").val(valor);
-        functionPlot(app);
-        $("#ecuacion").empty();
-        var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-        ecu = ecu.replace("x^2","x<sup>2</sup>");
-        $("#ecuacion").append(ecu);
+        graficar(valor,null,null);
     });
     $("#ax2-r").mousedown(function () {
         $("#ax2-r").mousemove(function () {
             var valor = $("#ax2-r").val();
-            if(!valor){
+            if(!valor)
                 valor = 0;
-            }
-            ecuaciones[0].fn = valor + "x^2";
-            ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-            app.data = ecuaciones;
             $("#ax2-v").val(valor);
-            functionPlot(app);
-            $("#ecuacion").empty();
-            var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-            ecu = ecu.replace("x^2","x<sup>2</sup>");
-            $("#ecuacion").append(ecu);
+            graficar(valor,null,null);
         });
         
     });
@@ -106,34 +91,18 @@ $(function () {
     });
     $("#bx-v").keyup(function () {
         var valor = $("#bx-v").val();
-        if(!valor){
+        if(!valor)
             valor = 0;
-        }
-        ecuaciones[1].fn = valor + "x";
-        ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-        app.data = ecuaciones;
         $("#bx-r").val(valor);
-        functionPlot(app);
-        $("#ecuacion").empty();
-        var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-        ecu = ecu.replace("x^2","x<sup>2</sup>");
-        $("#ecuacion").append(ecu);
+        graficar(null,valor,null);
     });
     $("#bx-r").mousedown(function () {
         $("#bx-r").mousemove(function () {
             var valor = $("#bx-r").val();
-            if(!valor){
+            if(!valor)
                 valor = 0;
-            }
-            ecuaciones[1].fn = valor + "x";
-            ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-            app.data = ecuaciones;
             $("#bx-v").val(valor);
-            functionPlot(app);
-            $("#ecuacion").empty();
-            var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-            ecu = ecu.replace("x^2","x<sup>2</sup>");
-            $("#ecuacion").append(ecu);
+            graficar(null,valor,null);
         });
     });
     $("#c-l").change(function(){
@@ -152,45 +121,19 @@ $(function () {
     });
     $("#c-v").keyup(function () {
         var valor = $("#c-v").val();
-        if(!valor){
+        if(!valor)
             valor = 0;
-        }
-        ecuaciones[2].fn = valor;
-        ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-        app.data = ecuaciones;
         $("#c-r").val(valor);
-        functionPlot(app);
-        $("#ecuacion").empty();
-        var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-        ecu = ecu.replace("x^2","x<sup>2</sup>");
-        $("#ecuacion").append(ecu);
+        graficar(null,null,valor);
     });
     $("#c-r").mousedown(function () {
         $("#c-r").mousemove(function () {
             var valor = $("#c-r").val();
-            if(!valor){
+            if(!valor)
                 valor = 0;
-            }
-            ecuaciones[2].fn = valor;
-            ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-            app.data = ecuaciones;
             $("#c-v").val(valor);
-            functionPlot(app);
-            $("#ecuacion").empty();
-            var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-            ecu = ecu.replace("x^2","x<sup>2</sup>");
-            $("#ecuacion").append(ecu);
+            graficar(null,null,valor);
         });
-    });
-    $("#ini").click(function () {
-        valoresPredet();
-    });
-    $("#ceros").click(function(){
-        ceros();
-    });
-    $("#descargar").click(function(){
-        descargarJSON();
-        $("#estado").html("Descargando JSON");
     });
     $("#abrir").change(function(){
         var archivo = document.getElementById("abrir").files[0];
@@ -207,6 +150,26 @@ $(function () {
             };
         }
     });
+    $("#enviar").click(function(){
+        alert("que pedo?");
+        var a = $("#ax2-v").val();
+        var b = $("#bx-v").val();
+        var c = $("#c-v").val();
+        $.get("Servlet",{a:a,b:b,c:c},function(respuesta){
+            alert("Ya debió regresar");
+            $("#estado").html(respuesta);
+        });
+    });
+    $("#ini").click(function () {
+        establecer(aIni,bIni,cIni);
+    });
+    $("#ceros").click(function(){
+        establecer(0,0,0);
+    });
+    $("#descargar").click(function(){
+        descargarJSON();
+        $("#estado").html("Descargando JSON");
+    });
     $("#limpiar").click(function(){
         $("#estado").empty();
     });
@@ -215,60 +178,6 @@ function graficador(larg,anch) {
     app.width = larg;
     app.height = anch;
 	functionPlot(app);
-}
-function valoresPredet() {
-    $("#ax2-v").val(a);
-    $("#ax2-r").val(a);
-    $("#bx-v").val(b);
-    $("#bx-r").val(b);
-    $("#c-v").val(c);
-    $("#c-r").val(c);
-    ecuaciones[0].fn = a+"x^2";
-    ecuaciones[1].fn = b+"x";
-    ecuaciones[2].fn = c.toString();
-    ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-    app.data = ecuaciones;
-    functionPlot(app);
-    $("#ecuacion").empty();
-    var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-    ecu = ecu.replace("x^2","x<sup>2</sup>");
-    $("#ecuacion").append(ecu);
-}
-function establecer(a,b,c){
-    $("#ax2-v").val(a);
-    $("#ax2-r").val(a);
-    $("#bx-v").val(b);
-    $("#bx-r").val(b);
-    $("#c-v").val(c);
-    $("#c-r").val(c);
-    ecuaciones[0].fn = a+"x^2";
-    ecuaciones[1].fn = b+"x";
-    ecuaciones[2].fn = c.toString();
-    ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-    app.data = ecuaciones;
-    functionPlot(app);
-    $("#ecuacion").empty();
-    var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-    ecu = ecu.replace("x^2","x<sup>2</sup>");
-    $("#ecuacion").append(ecu);
-}
-function ceros() {
-    $("#ax2-v").val(0);
-    $("#ax2-r").val(0);
-    $("#bx-v").val(0);
-    $("#bx-r").val(0);
-    $("#c-v").val(0);
-    $("#c-r").val(0);
-    ecuaciones[0].fn = "0x^2";
-    ecuaciones[1].fn = "0x";
-    ecuaciones[2].fn = "0";
-    ecuaciones[3].fn = ecuaciones[0].fn+"+"+ecuaciones[1].fn+"+"+ecuaciones[2].fn;
-    app.data = ecuaciones;
-    functionPlot(app);
-    $("#ecuacion").empty();
-    var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
-    ecu = ecu.replace("x^2","x<sup>2</sup>");
-    $("#ecuacion").append(ecu);
 }
 function descargarJSON(){
     var a = $("#ax2-v").val();
@@ -281,7 +190,27 @@ function descargarJSON(){
     };
     var json = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(objetoJSON));
     $("#desjson").attr("href","data:"+json);
-    //Porque jQuery omite las etiquetas a al usar click();
-    //Así que uso VanillaJS
+    //Uso VanillaJS porque el click() de jQuery no funciona para <a>
     document.getElementById("desjson").click();
+}
+function establecer(a,b,c){
+    $("#ax2-v").val(a);
+    $("#ax2-r").val(a);
+    $("#bx-v").val(b);
+    $("#bx-r").val(b);
+    $("#c-v").val(c);
+    $("#c-r").val(c);
+    graficar(a,b,c);
+}
+function graficar(valA,valB,valC) {
+    ecuaciones[0].fn = (valA==null?ecuaciones[0].fn:valA+"x^2");
+    ecuaciones[1].fn = (valB==null?ecuaciones[1].fn:valB+"x");
+    ecuaciones[2].fn = (valC==null?ecuaciones[2].fn:valC.toString());
+    ecuaciones[3].fn = ecuaciones[0].fn+(ecuaciones[1].fn.indexOf("-")>-1?"":"+")+ecuaciones[1].fn+(ecuaciones[2].fn.indexOf("-")>-1?"":"+")+ecuaciones[2].fn;
+    app.data = ecuaciones;
+    functionPlot(app);
+    $("#ecuacion").empty();
+    var ecu = "<h4>"+ecuaciones[3].fn+" = 0</h4>";
+    ecu = ecu.replace("x^2","x<sup>2</sup>");
+    $("#ecuacion").append(ecu);
 }

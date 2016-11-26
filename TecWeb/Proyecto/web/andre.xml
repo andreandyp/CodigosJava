@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<graficador>
+  <grafica id="0" disponible="true">
+    <a>3</a>
+    <b>4</b>
+    <c>5</c>
+  </grafica>
+  <grafica id="1" disponible="false">
+    <a>3</a>
+    <b>4</b>
+    <c>5</c>
+  </grafica>
+  <grafica id="1" disponible="true">
+    <a>3</a>
+    <b>4</b>
+    <c>5</c>
+  </grafica>
+</graficador>
