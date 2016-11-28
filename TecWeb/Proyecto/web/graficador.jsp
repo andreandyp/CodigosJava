@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Inserta el titulo aquí :P</title>
+        <title>Graficador Jendre</title>
         <script src="js/jquery-3.1.1.min.js"></script>
         <script src="js/d3.min.js"></script>
         <script src="js/function-plot.js"></script>
@@ -45,7 +45,7 @@
                         <h6>Desarrolladores</h6>
                         <ul>
                             <li><a href="https://andreandyp.github.io">André Michel</a></li>
-                            <li><a href="">Jessica Areli</a></li>
+                            <li><a href="https://www.instagram.com/jess_roary/">Jessica Areli</a></li>
                             <li><a href="https://www.instagram.com/andiiburciaga/">Rodrigo Andrés</a></li>
                         </ul>
                         <h6>Frameworks usados</h6>

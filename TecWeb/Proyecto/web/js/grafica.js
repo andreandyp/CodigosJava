@@ -136,27 +136,43 @@ $(function () {
         });
     });
     $("#abrir").change(function(){
+        var error = false;
         var archivo = document.getElementById("abrir").files[0];
         if (archivo) {
             var reader = new FileReader();
             reader.readAsText(archivo, "UTF-8");
             reader.onload = function (evt) {
                 var coeficientes = JSON.parse(evt.target.result);
+                if(!coeficientes.a || isNaN(coeficientes.a)){
+                    coeficientes.a = 0;
+                    error = true;
+                }
+                if(!coeficientes.b || isNaN(coeficientes.b)){
+                    coeficientes.b = 0;
+                    error = true;
+                }
+                if(!coeficientes.c || isNaN(coeficientes.c)){
+                    coeficientes.c = 0;
+                    error = true;
+                }
                 establecer(coeficientes.a,coeficientes.b,coeficientes.c);
-                $("#estado").html("Valores del JSON establecidos");
+                var estado = "Valores del JSON establecidos.";
+                $("#estado").html(estado);
+                if(error){
+                    $("#estado").html(estado+"<br>(Uno o mas valores del JSON eran incorrectos o no existian)");
+                }
             };
             reader.onerror = function (evt) {
                 alert("Error en el archivo");
             };
         }
+        document.getElementById("abrir").files[0] = null;
     });
     $("#enviar").click(function(){
-        alert("que pedo?");
         var a = $("#ax2-v").val();
         var b = $("#bx-v").val();
         var c = $("#c-v").val();
         $.get("Servlet",{a:a,b:b,c:c},function(respuesta){
-            alert("Ya debió regresar");
             $("#estado").html(respuesta);
         });
     });

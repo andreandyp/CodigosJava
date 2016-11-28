@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -16,33 +17,29 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 public class Servlet extends HttpServlet {
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GenerarJSON</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GenerarJSON at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String a = request.getParameter("a");
         String b = request.getParameter("b");
         String c = request.getParameter("c");
+        /*HttpSession sesion = request.getSession();
+        String tipo = (String) sesion.getAttribute("tipo");
+        if(!tipo.equals("profesor")){
+            response.getWriter().write("No eres un profesor, no puedes guardar el diagrama.");
+        }*/
+        String ruta = getServletContext().getRealPath("diagramas")+"/andre.xml";
         SAXBuilder builder = new SAXBuilder();
-        File xml = new File(getServletContext().getRealPath("/")+"andre.xml");
+        File xml = new File(ruta);
         try{
             Document document = (Document) builder.build(xml);
             Element raiz = document.getRootElement();
+            List lista = raiz.getChildren("grafica");
+            Element ultimo = (Element) lista.get(lista.size()-1);
             Element nuevo = new Element("grafica");
+            int id = Integer.parseInt(ultimo.getAttributeValue("id"));
+            ++id;
+            nuevo.setAttribute("id",Integer.toString(id));
             nuevo.setAttribute("disponible","true");
             nuevo.addContent(new Element("a").setText(a));
             nuevo.addContent(new Element("b").setText(b));
@@ -52,7 +49,7 @@ public class Servlet extends HttpServlet {
             XMLOutputter xmlOutput = new XMLOutputter();
             xmlOutput.setFormat(Format.getPrettyFormat());
             xml.delete();
-            FileWriter escritor = new FileWriter(getServletContext().getRealPath("/")+"andre.xml");
+            FileWriter escritor = new FileWriter(ruta);
             xmlOutput.output(document, escritor);
             escritor.flush();
             escritor.close();
@@ -66,7 +63,7 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
     @Override
     public String getServletInfo() {
