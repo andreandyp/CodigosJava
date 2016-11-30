@@ -3,7 +3,6 @@ package paquete;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,12 +22,14 @@ public class Servlet extends HttpServlet {
         String a = request.getParameter("a");
         String b = request.getParameter("b");
         String c = request.getParameter("c");
-        /*HttpSession sesion = request.getSession();
+        HttpSession sesion = request.getSession();
         String tipo = (String) sesion.getAttribute("tipo");
+        String usuario = (String) sesion.getAttribute("usuario");
         if(!tipo.equals("profesor")){
             response.getWriter().write("No eres un profesor, no puedes guardar el diagrama.");
-        }*/
-        String ruta = getServletContext().getRealPath("diagramas")+"/andre.xml";
+            return;
+        }
+        String ruta = getServletContext().getRealPath("diagramas")+"/"+usuario+".xml";
         SAXBuilder builder = new SAXBuilder();
         File xml = new File(ruta);
         try{
@@ -41,6 +42,7 @@ public class Servlet extends HttpServlet {
             ++id;
             nuevo.setAttribute("id",Integer.toString(id));
             nuevo.setAttribute("disponible","true");
+            nuevo.setAttribute("grupo","0");
             nuevo.addContent(new Element("a").setText(a));
             nuevo.addContent(new Element("b").setText(b));
             nuevo.addContent(new Element("c").setText(c));

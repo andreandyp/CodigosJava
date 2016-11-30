@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <graficador>
-  <grafica id="1" disponible="true">
-    <a>3</a>
-    <b>4</b>
-    <c>5</c>
-  </grafica>
-  <grafica id="2" disponible="false">
-    <a>3</a>
-    <b>4</b>
-    <c>5</c>
-  </grafica>
-  <grafica id="3" disponible="true">
-    <a>3</a>
-    <b>4</b>
-    <c>5</c>
-  </grafica>
-  <grafica id="4" disponible="true">
-    <a>20</a>
-    <b>12</b>
-    <c>16</c>
-  </grafica>
+    <grafica id="0" disponible="false" grupo="0"/>
 </graficador>
 
