@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class Interfaz extends JFrame implements ActionListener {
-    JButton ver,crear;
+    JButton verN,crear,verF;
     public Interfaz(){
         super("Autos André");
         setBounds(0,0,320,240);
@@ -16,13 +16,18 @@ public class Interfaz extends JFrame implements ActionListener {
         componentes();
     }
     private void componentes(){
-        ver = new JButton("Ver citas");
-        ver.setBounds(0,0,100,50);
-        ver.addActionListener(this);
-        this.add(ver);
+        verN = new JButton("Ver citas por nombre");
+        verN.setBounds(0,0,200,20);
+        verN.addActionListener(this);
+        this.add(verN);
+        
+        verF = new JButton("Ver citas por fecha");
+        verF.setBounds(0,20,200,20);
+        verF.addActionListener(this);
+        this.add(verF);
         
         crear = new JButton("Crear citas");
-        crear.setBounds(200, 0, 100, 50);
+        crear.setBounds(0, 80, 200, 20);
         crear.addActionListener(this);
         this.add(crear);
         
@@ -31,9 +36,12 @@ public class Interfaz extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == crear){
-            new Citas(true);
+            new CrearCitas("Crear una cita");
         }else{
-            new Citas(false);
+            if(e.getSource() == verN)
+                new VerCitas("Ver las citas por nombre",true);
+            else
+                new VerCitas("Ver las citas por fecha",false);
         }
     }
 }
