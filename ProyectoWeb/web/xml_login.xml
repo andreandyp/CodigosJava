@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<usuarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="esquemalogin.xsd">
+  <usuario id="1" tipo="administrador">
+    <nombre>Alicia</nombre>
+    <correo>ornelas@escom.com</correo>
+    <n_usuario>zandy3</n_usuario>
+    <pass>zandy3</pass>
+  </usuario>
+  <usuario id="2" tipo="profesor">
+    <nombre>ruben</nombre>
+    <correo>peredo@gmail.com</correo>
+    <n_usuario>rperedo</n_usuario>
+    <pass>123peredo</pass>
+  </usuario>
+  <usuario id="3" tipo="administrador">
+    <nombre>Rodrigo AndrÃ©s</nombre>
+    <correo>rodrigo@live.com</correo>
+    <n_usuario>andii_burciaga</n_usuario>
+    <pass>rodrigoandres</pass>
+  </usuario>
+</usuarios>
+

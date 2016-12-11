@@ -55,7 +55,7 @@ public class Practica2Redes {
 
 		}//for
 
-		PcapIf device = alldevs.get(0); // We know we have atleast 1 device
+		PcapIf device = alldevs.get(2); // We know we have atleast 1 device
 		System.out
 		    .printf("\nChoosing '%s' on your behalf:\n",
 		        (device.getDescription() != null) ? device.getDescription()
@@ -96,10 +96,12 @@ public class Practica2Redes {
 		 * Third we create a packet handler which will receive packets from the
 		 * libpcap loop.
 		 **********************************************************************/
+                System.out.println("Antes de");
 		PcapPacketHandler<String> jpacketHandler = new PcapPacketHandler<String>() {
                         int i = 1;
                         @Override
 			public void nextPacket(PcapPacket packet, String user) {
+                            System.out.println("Aqui entra");
                                 
 				/*System.out.printf("Paquete recibido el %s caplen=%-4d len=%-4d %s\n",
 				    new Date(packet.getCaptureHeader().timestampInMillis()),
@@ -151,12 +153,16 @@ public class Practica2Redes {
 		 * the loop method exists that allows the programmer to sepecify exactly
 		 * which protocol ID to use as the data link type for this pcap interface.
 		 **************************************************************************/
-		pcap.loop(20, jpacketHandler, "");
+                    System.out.println("Antes de entrar al loop");
+		pcap.loop(10, jpacketHandler, "");
+                    System.out.println("despues de entrar akl loop");
 
 		/***************************************************************************
 		 * Last thing to do is close the pcap handle
 		 **************************************************************************/
 		pcap.close();
-                }catch(IOException e){}
+                }catch(IOException e){
+                    System.out.println(e.getMessage());
+                }
 	}
 }

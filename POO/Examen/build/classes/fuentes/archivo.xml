@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<datos>
+  <cita fecha="01/01/2000" id="0">
+    <cliente>
+      <nombre></nombre>
+      <telefono></telefono>
+      <correo></correo>
+    </cliente>
+    <auto>
+      <marca></marca>
+      <modelo></modelo>
+      <placas></placas>
+    </auto>
+  </cita>
+</datos>
