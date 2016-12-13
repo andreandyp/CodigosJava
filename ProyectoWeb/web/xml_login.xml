@@ -24,5 +24,11 @@
     <n_usuario>sergio_b</n_usuario>
     <pass>sergiob</pass>
   </usuario>
+  <usuario id="5" tipo="estudiante">
+    <nombre>Juan</nombre>
+    <correo>juan@live.com</correo>
+    <n_usuario>juan</n_usuario>
+    <pass>123</pass>
+  </usuario>
 </usuarios>
 
