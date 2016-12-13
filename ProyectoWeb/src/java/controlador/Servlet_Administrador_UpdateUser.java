@@ -88,7 +88,10 @@ public class Servlet_Administrador_UpdateUser extends HttpServlet {
 				out.print("editado");
 				XMLOutputter xmlOutput = new XMLOutputter();
 				xmlOutput.setFormat(Format.getPrettyFormat());
-				xmlOutput.output(documento, new FileWriter(archivoXML));
+				FileWriter x = new FileWriter(archivoXML);
+			xmlOutput.output(documento, x);
+                        x.flush();
+                        x.close();
 			}
 			
 			

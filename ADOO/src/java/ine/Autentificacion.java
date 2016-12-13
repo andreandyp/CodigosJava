@@ -1,6 +1,9 @@
 package ine;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +16,6 @@ public class Autentificacion extends HttpServlet {
     
     Autentificacion(){
         base = new BaseINE();
-        base.abrirConexion();
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,9 +39,16 @@ public class Autentificacion extends HttpServlet {
     }
     
     private boolean iniciarConClave(String clave, HttpServletRequest request, HttpServletResponse response){
-        
-        //Aquí va la clave
-        //Bien "hardcodeado"
+
+        try {
+            base.abrirConexion();
+            if(base.buscarClave(clave)){
+                v = new Votante();
+            }
+                return true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
         
         return true;
     }

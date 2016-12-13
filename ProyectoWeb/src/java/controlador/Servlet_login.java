@@ -38,9 +38,8 @@ public class Servlet_login extends HttpServlet {
 		String user=request.getParameter("user");
 		String password=request.getParameter("pass");
 		Usuario usuario_java = new Usuario(user, password);
-		//session.setAttribute("key", user);
 		boolean compruebausuario=false,compruebapass= false;
-		String usrid="";
+		String tipousr="";
 		
 		try {
 			
@@ -54,7 +53,7 @@ public class Servlet_login extends HttpServlet {
              {
               Element usuario=(Element)lista.get(i);
               Attribute atributousuario =  usuario.getAttribute("tipo");
-              usrid=atributousuario.getValue();
+              tipousr=atributousuario.getValue();
               if(compruebausuario= usuario_java.existeUsuario(usuario.getChildText("n_usuario"))){
 				compruebapass = usuario_java.compruebaPass(usuario.getChildText("pass")); 
 					break;
@@ -68,10 +67,11 @@ public class Servlet_login extends HttpServlet {
 		
 		
 		if (compruebausuario && compruebapass) {
-			out.print("Bienvenido "+usrid);
+			out.print("Bienvenido "+tipousr);
 			HttpSession session= request.getSession();
 			session.setAttribute("key", usuario_java);
-                        session.setAttribute("tipo", usrid);
+			session.setAttribute("key1", tipousr);
+                        session.setAttribute("tipo", tipousr);
 		}
 		
 		else if(compruebausuario && (compruebapass==false))

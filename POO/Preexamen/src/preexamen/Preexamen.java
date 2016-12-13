@@ -14,15 +14,15 @@ public class Preexamen {
         Scanner teclado = new Scanner(System.in);
         System.out.println("Ingresa una frase: ");
         cadena = teclado.nextLine();
-        arreglo1 = cadena.split(" ");
+        arreglo1 = cadena.toLowerCase().split(" ");
         arreglo2 = new int[arreglo1.length];
         ordenadas = new String[arreglo1.length];
         
         for (int i = 0; i < arreglo1.length; i++)
             arreglo2[i] = arreglo1[i].charAt(0);
         Arrays.sort(arreglo2);
-        for (int i = 0; i < arreglo2.length; i++)
-            System.out.println(arreglo2[i]);
+        /*for (int i = 0; i < arreglo2.length; i++)
+            System.out.println(arreglo2[i]);*/
         for(int j = 0; j <arreglo2.length; j++){
             for (int i = 0; i < arreglo1.length; i++) {
                 if(arreglo1[i].charAt(0) == arreglo2[j]){

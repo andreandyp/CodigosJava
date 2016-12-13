@@ -13,10 +13,16 @@
     <pass>123peredo</pass>
   </usuario>
   <usuario id="3" tipo="administrador">
-    <nombre>Rodrigo AndrÃ©s</nombre>
+    <nombre>Rodrigo Andres</nombre>
     <correo>rodrigo@live.com</correo>
     <n_usuario>andii_burciaga</n_usuario>
     <pass>rodrigoandres</pass>
+  </usuario>
+  <usuario id="4" tipo="profesor">
+    <nombre>sergio</nombre>
+    <correo>multi@gmail.com</correo>
+    <n_usuario>sergio_b</n_usuario>
+    <pass>sergiob</pass>
   </usuario>
 </usuarios>
 

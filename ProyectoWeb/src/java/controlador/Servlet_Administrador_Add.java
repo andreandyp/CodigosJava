@@ -97,16 +97,15 @@ public class Servlet_Administrador_Add extends HttpServlet {
 				raiz.addContent(usuario);
 				XMLOutputter xmlOutput = new XMLOutputter();
 				xmlOutput.setFormat(Format.getPrettyFormat());
-                                FileWriter archivo = new FileWriter(archivoXML);
-				xmlOutput.output(documento, archivo);
-                                archivo.flush();
-                                archivo.close();
+                                FileWriter x = new FileWriter(archivoXML);
+				xmlOutput.output(documento, x);
 				out.print("usuario agregado");
+                                x.flush();
+                                x.close();
                                 if(tipo.equals("profesor")){
                                     Diagramas d = new Diagramas(parametros[1]);
                                     d.crearArchivo(request.getServletContext().getRealPath("diagramas")+"/");
                                 }
-                                
 			}
 			
 			

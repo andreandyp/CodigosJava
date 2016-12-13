@@ -2,11 +2,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
 <title>Inicie sesión</title>
 <link href="css/bootstrap.css"  rel="stylesheet">
 <link href="css/estilos.css" rel="stylesheet">
 </head>
-<body >
+<body onload="borrarBack()">
 
 <!-- Navbar -->
 
@@ -22,7 +25,6 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" ><span class="glyphicon glyphicon-user"></span> Regístrate</a></li>
         <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in"></span> Inicia Sesión</a></li>
       </ul>
     </div>

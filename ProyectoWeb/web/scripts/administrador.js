@@ -1,22 +1,31 @@
 document.addEventListener("DOMContentLoaded", function() {
 	document.getElementById("contenedor").style.visibility = "hidden";
+	document.getElementById("contenedor1").style.visibility = "hidden";
 	var xhttp= new XMLHttpRequest();
 	xhttp.onreadystatechange = function(){
 		if (this.readyState == 4 && this.status == 200) {
-			if(this.responseText == "Error: null"){
+ 			if(this.responseText == "null Error: null"){
 				window.location = "login.html";
 			}
 			else{
-				document.getElementById("contenedor").style.visibility = "visible";
+				if(this.responseText.search("administrador")!=-1){
+ 					 document.getElementById("contenedor").style.visibility = "visible";
+ 					 document.getElementById("contenedor1").style.visibility = "visible";
+ 					 consultarUsuarios();
+				}
+				else {
+					var usr= this.responseText.split(" ");
+					window.location = usr[0]+".html";
+				}
 			}
 		}
 	}
 	xhttp.open("GET", "Servlet_Get_User?t="+ Math.random(), true);
 	xhttp.send();
-	});
 
-
-
+})
+ 
+  
 
 function agregar() {
 	document.getElementById("mostrar").innerHTML =
@@ -46,23 +55,7 @@ function agregar() {
 	
 	document.getElementById("tabla").innerHTML= "";
 	
- /* Otro Método
- 	var nameTableBody = document.getElementById("name_table_body");
-    var row,cell,txtnode,br;
-    row = document.createElement("tr");
-	cell = document.createElement("td");
-	txtNode = document.createElement("input");
-	txtNode.setAttribute("type","text");
-	cell.appendChild(txtNode);
-	row.appendChild(cell);
-	nameTableBody.appendChild(row);
-	row = document.createElement("tr");
-	cell = document.createElement("td");
-	txtNode = document.createElement("input");
-	txtNode.setAttribute("type","text");
-	cell.appendChild(txtNode);
-	row.appendChild(cell);
-	nameTableBody.appendChild(row);*/
+ 
     
 	
 }
@@ -241,3 +234,80 @@ function actualizarUsuario(id){
 }
 
 
+function agregarGrupo(){
+	borrar("mostrar");
+	borrar("tabla");
+	document.getElementById("mostrar").innerHTML =
+		"<form>"+
+		"<table>"+
+		"<tr>"+
+		"<td>Nombre Grupo</td><td><input type=\"text\" placeholder=\"Nombre Grupo\" class='form-control' name='registroGrupo'><span name='validacion' class='alerta'></span></td>"+
+		"</tr>"+
+		"<tr>"+
+		"<td>Numero de Alumnos</td><td><input type=\"number\" min=\"1\" max=\"30\" class='form-control' placeholder=\"Máximo 30 \" name='registroGrupo'><span name='validacion' class='alerta'></span></td>"+
+		"</tr>"+
+		"<tr><td><button type=\"button\" onclick=\"addGrupo()\">Registrar</button></td></tr>"+
+		"</table>"+
+		"</form>"
+	    ;
+}  
+
+function addGrupo(){
+	var x= document.getElementsByName("registroGrupo");
+	var conteo=0;
+	for(var i=0;i<x.length;i++){
+		if (x[i].value == "" || x[i].value==null){
+			document.getElementsByName("validacion")[i].innerHTML = " *Campo Obligatorio";
+			conteo++;
+		}
+		else {
+			document.getElementsByName("validacion")[i].innerHTML = "";
+		}
+	}
+	
+	if(conteo==0 ){
+		
+		if(x[1].value <= 30){
+			var parametros= [];
+			for (var i = 0; i < x.length ; i++) {
+				parametros[i]=x[i].value.toLowerCase();
+			}
+			
+					
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function(){
+				if(this.readyState == 4 && this.status == 200){
+					if(this.responseText=="grupo agregado"){
+						document.getElementById("alerta").innerHTML = "<p onmouseout='borrar(\"alerta\")' class='alerta'>Grupo agregado</p>";
+						consultarGrupos();
+					}
+					else{
+						document.getElementById("alerta").innerHTML = "<p onmouseout='borrar(\"alerta\")' class='alerta'>El grupo ya existe</p>";
+					}
+				}
+			}
+			xhttp.open("POST", "Servlet_BrowseGroup", true);
+		    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		    xhttp.send("parametros="+parametros+"&t="+Math.random());
+		}
+		
+		else{
+			document.getElementsByName("validacion")[1].innerHTML = "*Introduzca un numero menor a 30";
+		}
+		
+		
+	}
+} 
+
+function consultarGrupos(){
+	borrar("mostrar");
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function(){
+		if(this.readyState == 4 && this.status == 200){
+			document.getElementById("tabla").innerHTML = this.responseText;
+		}
+	}
+	
+	xhttp.open("GET", "Servlet_Administrador_ReadGrupos?t="+ Math.random(), true);
+    xhttp.send(); 
+}

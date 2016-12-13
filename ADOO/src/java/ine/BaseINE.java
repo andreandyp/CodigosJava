@@ -16,10 +16,10 @@ public class BaseINE {
         Class.forName("com.mysql.jdbc.Driver");
         con = DriverManager.getConnection(url, usuario, claveBase);
     }
-    public void buscarClave(Votante v){
-        
+    public boolean buscarClave(String clave){
+        return false;        
     }
-    public void cerrarConexion(){
-        
+    public void cerrarConexion() throws SQLException{
+        con.close();
     }
 }

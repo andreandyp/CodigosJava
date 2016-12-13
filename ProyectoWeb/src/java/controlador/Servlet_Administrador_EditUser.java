@@ -16,7 +16,6 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 
 @WebServlet("/Servlet_Administrador_EditUser")

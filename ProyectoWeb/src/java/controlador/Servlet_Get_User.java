@@ -25,6 +25,8 @@ public class Servlet_Get_User extends HttpServlet {
 		try{
 			HttpSession session= request.getSession();
 			Usuario usr =(Usuario) session.getAttribute("key");
+			String tipo= (String)session.getAttribute("key1");
+			out.print(tipo+" ");
 			out.print(usr.getUser());
 		}
 		

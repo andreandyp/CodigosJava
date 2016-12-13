@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
+
 @WebServlet("/Servlet_DeleteSession")
 public class Servlet_DeleteSession extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +20,7 @@ public class Servlet_DeleteSession extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		HttpSession session= request.getSession();
 		session.removeAttribute("key");
+		session.removeAttribute("key1");
 		
 	}
 

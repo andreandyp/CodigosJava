@@ -4,26 +4,30 @@
 <link href="css/bootstrap.css"  rel="stylesheet">
 <link href="css/estilos.css" rel="stylesheet"> 
 <meta charset="UTF-8">
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
 <title>Administrador</title>
 </head>
-<body onload="consultarUsuarios()">
+<body >
 
 
-<div class="container-fluid" id="contenedor">
+<div class="container" id="contenedor">
 <p>Bienvenido</p>
 	<div class="row">
-		<div class="col-sm-3 col-md-3 col-lg-3" style="background-color:lavenderblush;">
+		<div class="col-sm-4 col-md-4 col-lg-4" id="contenedor1" style="background-color:lavenderblush;">
 		<div class="btn-group-vertical btn-block">
     	<button type="button" class="btn btn-info" onclick="editar()">Editar/Eliminar Usuarios</button>
     	<button type="button" class="btn btn-info" onclick="agregar()">Agregar Usuario</button>
     	<button type="button" class="btn btn-info" onclick="consultarUsuarios()">Consultar Usuarios</button>
     	<button type="button" class="btn btn-info" onclick="agregarGrupo()">Agregar Grupo</button>
+    	<button type="button" class="btn btn-info" onclick="consultarGrupos()">Consultar Grupos</button>
   		</div>
 		
 	
 		</div>
 		
-		<div class="col-sm-9 col-md-9 col-lg-9" style="background-color:lightgray;">
+		<div class="col-sm-8 col-md-8 col-lg-8" style="background-color:lightgray;">
 		<div id="mostrar"></div>
 		<div id="tabla"></div>
 		<div id="alerta"></div>
@@ -35,11 +39,9 @@
 
 
 
-
-
-
+ <script src="scripts/administrador.js"> </script>
  <script src="scripts/jquery-3.1.1.js"></script>
  <script src="scripts/bootstrap.min.js"></script>  
-<script src="scripts/administrador.js"></script>
+
 </body>
 </html>
