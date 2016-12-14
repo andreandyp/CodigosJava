@@ -1,0 +1,29 @@
+.alerta{
+	color: red;
+	font-size:small;
+	backgroun-color:blue;
+}
+.botones, .botones1:hover{
+	background-color:#222222;
+	color:white;
+			
+}
+.modal-header{
+	background-color:#222222;
+	color:white;
+	font-size: 30px;	
+}
+body{
+	background-color:#F5F5F5;
+	/*background-image: url("../images/uno.jpg");*/
+}
+.centrar{
+	text-align: center;
+    margin-top: 20%;
+}
+h1 {
+    text-align: center;
+}
+
+
+

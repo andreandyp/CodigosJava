@@ -1,9 +1,10 @@
 $(function () {
     $("#inicioHuella").hide();
     var validado = false;
+    var claveElec;
     $("#enviar").click(function () {
-        if (!validado) {
-            var claveElec = $("#claveElec").val();
+        if (validado === false) {
+            claveElec = $("#claveElec").val();
             var er = /^[0-9A-Z]*$/;
             if (claveElec.length < 18 || er.test(claveElec) === false) {
                 $("#info").html("La clave de elector debe de contener 18 caracteres, letras mayúsculas y numeros");
@@ -21,9 +22,23 @@ $(function () {
                 });
             }
         } else {
-            //Verificar huella
-            window.location.href = "";
+            $.post("Autentificacion", {clave: claveElec,valido:validado}, function (respuesta) {
+                    if (respuesta == "true") {
+                        window.location.href = "http://localhost:8080/ADOO/procesoElectoral.jsp";
+                    } else {
+                        alert("jue");
+                    }
+                });
         }
         
+    });
+    $("#votar").click(function(){
+        $("#acciones").hide();
+        $("#sufragios").show();
+    });
+    $("img").click(function(){
+        $.post("ProcesoElectoral",{partido:$(this).attr("alt"),candidato:"hue"},function(){
+            
+        });
     });
 });

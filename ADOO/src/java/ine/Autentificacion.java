@@ -1,9 +1,6 @@
 package ine;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +11,12 @@ public class Autentificacion extends HttpServlet {
     HttpSession sesion;
     BaseINE base;
     
-    Autentificacion(){
+    public Autentificacion(){
         base = new BaseINE();
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
     }
 
     @Override
@@ -29,33 +25,34 @@ public class Autentificacion extends HttpServlet {
         String clave = request.getParameter("clave");
         boolean validado = Boolean.parseBoolean(request.getParameter("valido"));
         response.setContentType("text/plain;charset=UTF-8");
-        boolean existe = false,huella;
-        if(validado){
+        boolean existe = false;
+        if(!validado){
             existe = iniciarConClave(clave,request,response);
         }else{
-            huella = iniciarConHuella(clave,request,response);
+            existe = iniciarConHuella(clave,request,response);
         }
         response.getWriter().write(Boolean.toString(existe));
     }
     
     private boolean iniciarConClave(String clave, HttpServletRequest request, HttpServletResponse response){
-
         try {
             base.abrirConexion();
-            if(base.buscarClave(clave)){
-                v = new Votante();
-            }
+            if((vot = base.buscarClave(clave)) != null){
+                base.cerrarConexion();
                 return true;
+            }else{
+                base.cerrarConexion();
+                return false;
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
-        
-        return true;
     }
 
     private boolean iniciarConHuella(String clave, HttpServletRequest request, HttpServletResponse response) {
         sesion = request.getSession(true);
-        sesion.setAttribute("claveElec", clave);
+        sesion.setAttribute("Usuario", vot);
         return true;
     }
 

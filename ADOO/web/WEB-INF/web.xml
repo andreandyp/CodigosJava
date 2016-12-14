@@ -4,13 +4,24 @@
         <servlet-name>Autentificacion</servlet-name>
         <servlet-class>ine.Autentificacion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProcesoElectoral</servlet-name>
+        <servlet-class>ine.ProcesoElectoral</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Autentificacion</servlet-name>
         <url-pattern>/Autentificacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcesoElectoral</servlet-name>
+        <url-pattern>/ProcesoElectoral</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>  
+        <welcome-file>inicio.jsp</welcome-file>
+    </welcome-file-list> 
 </web-app>
