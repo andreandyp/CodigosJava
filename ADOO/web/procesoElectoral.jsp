@@ -17,7 +17,7 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/funciones.js"></script>
         <style type="text/css">
-            h1,h2,h3,h4,p{
+            h1,h2,h3,h4,h5,p{
                 text-align: center;
             }
             img{
@@ -26,11 +26,35 @@
         </style>
         <script>
             $(function(){
+                var votos = 0;
                 $("#sufragios").hide();
                 var voEmitido = <%out.println( ((Votante)sesion.getAttribute("Usuario")).isVotoEmitido() );%>;
                 if(voEmitido == true){
                     $("#votar").prop("disabled","true");
                 }
+                $("#votar").click(function(){
+                    $.get("ProcesoElectoral",{hola:"hola"},function(datos){
+                        if (datos == "true" || votos > 2){
+                            alert("Ya terminaste de votar");
+                            <%((Votante)sesion.getAttribute("Usuario")).setNumVotos(0);%>
+                            location.reload();
+                        }
+                        ++votos;
+                        var json = $.parseJSON(datos);
+                        $("#estado").html(json.Eleccion);
+                        $("img[alt='PRI']").parent().children("h5").html(json.PRI);
+                        $("img[alt='PAN']").parent().children("h5").html(json.PAN);
+                        $("img[alt='PRD']").parent().children("h5").html(json.PRD);
+                        $("img[alt='MORENA']").parent().children("h5").html(json.MORENA);
+                        $("img[alt='MC']").parent().children("h5").html(json.MC);
+                        $("img[alt='PT']").parent().children("h5").html(json.PT);
+                        $("img[alt='PVEM']").parent().children("h5").html(json.PVEM);
+                        $("img[alt='PANAL']").parent().children("h5").html(json.PANAL);
+                        $("img[alt='PH']").parent().children("h5").html(json.PH);
+                        $("img[alt='PES']").parent().children("h5").html(json.PES);
+                    });
+                });
+
             });
         </script>
     </head>
@@ -54,7 +78,7 @@
                 </div>
                 <div class="sol-sm-4">
                     <h4>Casilla asignada: <br><%out.println(((Votante) sesion.getAttribute("Usuario")).getCasilla());%></h4>
-                    <h4>Número de votos faltantes: <br><%out.println(((Votante) sesion.getAttribute("Usuario")).getSeccion());%></h4>
+                    <h4>Número de votos faltantes: <br><%out.println( 3- ((Votante)sesion.getAttribute("Usuario")).getNumVotos() );%></h4>
                 </div>
             </div>
             <div class="row" id="sufragios">
@@ -64,61 +88,70 @@
                 <br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <img src="imagenes/PRM.png" alt="PRI" class="center-block"/>
+                        <img src="imagenes/PRM.png" alt="PRI" class="center-block opcion"/>
                         <h4>Partido Revolucionario Institucional</h4>
+                        <h5></h5>
                     </div>
                     <div class="col-sm-6">
-                        <img src="imagenes/PAN.png" alt="PAN" class="center-block"/>
+                        <img src="imagenes/PAN.png" alt="PAN" class="center-block opcion"/>
                         <h4>Partido Acción Nacional</h4>
+                        <h5></h5>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <img src="imagenes/PRD.png" alt="PRD" class="center-block"/>
+                        <img src="imagenes/PRD.png" alt="PRD" class="center-block opcion"/>
                         <h4>Partido de la Revolución Democrática</h4>
+                        <h5></h5>
                     </div>
                     <div class="col-sm-6">
-                        <img src="imagenes/MORENA.png" alt="MORENA" class="center-block"/>
+                        <img src="imagenes/MORENA.png" alt="MORENA" class="center-block opcion"/>
                         <h4>Movimiento de Regeneración Nacional</h4>
+                        <h5></h5>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <img src="imagenes/MC.png" alt="MC" class="center-block"/>
+                        <img src="imagenes/MC.png" alt="MC" class="center-block opcion"/>
                         <h4>Movimiento Ciudadano</h4>
+                        <h5></h5>
                     </div>
                     <div class="col-sm-6">
-                        <img src="imagenes/PT.png" alt="PT" class="center-block"/>
+                        <img src="imagenes/PT.png" alt="PT" class="center-block opcion"/>
                         <h4>Partido del Trabajo</h4>
+                        <h5></h5>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <img src="imagenes/PVEM.png" alt="PVEM" class="center-block"/>
+                        <img src="imagenes/PVEM.png" alt="PVEM" class="center-block opcion"/>
                         <h4>Partido Verde Ecologista de México</h4>
+                        <h5></h5>
                     </div>
                     <div class="col-sm-6">
-                        <img src="imagenes/PANAL.png" alt="PANAL" class="center-block"/>
+                        <img src="imagenes/PANAL.png" alt="PANAL" class="center-block opcion"/>
                         <h4>Partido Nueva Alianza</h4>
+                        <h5></h5>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <img src="imagenes/PH.png" alt="PH" class="center-block"/>
+                        <img src="imagenes/PH.png" alt="PH" class="center-block opcion"/>
                         <h4>Partido Humanista</h4>
+                        <h5></h5>
                     </div>
                     <div class="col-sm-6">
-                        <img src="imagenes/PES.png" alt="PES" class="center-block"/>
+                        <img src="imagenes/PES.png" alt="PES" class="center-block opcion"/>
                         <h4>Partido Encuentro Social</h4>
+                        <h5></h5>
                     </div>
                 </div>
                 <h1>¡Recuerda!</h1>
                 <h1>El voto es libre, secreto y directo.</h1>
-                
             </div>
         </div>
     </body>

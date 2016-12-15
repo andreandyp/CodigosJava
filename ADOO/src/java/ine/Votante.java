@@ -7,6 +7,15 @@ public class Votante {
     private final int seccion;
     private String casilla;
     private boolean votoEmitido;
+    private int numVotos;
+
+    public int getNumVotos() {
+        return numVotos;
+    }
+
+    public void setNumVotos(int numVotos) {
+        this.numVotos = numVotos;
+    }
 
     public Votante(String claveElec, String nombre, char sexo, int estado, int seccion) {
         this.claveElec = claveElec;
@@ -19,6 +28,10 @@ public class Votante {
 
     public String getClaveElec() {
         return claveElec;
+    }
+
+    public void setVotoEmitido(boolean votoEmitido) {
+        this.votoEmitido = votoEmitido;
     }
 
     public char getSexo() {

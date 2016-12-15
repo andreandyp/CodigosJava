@@ -37,17 +37,11 @@
         </div>
         <footer style="position: absolute; bottom: 0px;">
             <div class="row">
-                <div class="col-sm-3">
-                    <p>Logo del gobierno</p>
+                <div class="col-sm-6">
+                    <img src="imagenes/fin.PNG" alt="Fondo"/>
                 </div>
-                <div class="col-sm-3">
-                    <p>Logo INE</p>
-                </div>
-                <div class="col-sm-3">
-                    <p>Logo IPN</p>
-                </div>
-                <div class="col-sm-3">
-                    <p>Aquí iría nuestro logo chido</p>
+                <div class="col-sm-6">
+                    <img src="imagenes/poraas.PNG" alt="Fondo"/>
                 </div>
             </div>
         </footer>

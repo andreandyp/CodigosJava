@@ -36,9 +36,22 @@ $(function () {
         $("#acciones").hide();
         $("#sufragios").show();
     });
-    $("img").click(function(){
-        $.post("ProcesoElectoral",{partido:$(this).attr("alt"),candidato:"hue"},function(){
-            
+    $(".opcion").click(function(){
+        $.post("ProcesoElectoral",{partido:$(this).attr("alt"),candidato:$(this).parent().children("h5").html()},function(){
+            $.get("ProcesoElectoral",{hola:"hola"},function(datos){
+                        var json = $.parseJSON(datos);
+                        $("#estado").html(json.Eleccion);
+                        $("img[alt='PRI']").parent().children("h5").html(json.PRI);
+                        $("img[alt='PAN']").parent().children("h5").html(json.PAN);
+                        $("img[alt='PRD']").parent().children("h5").html(json.PRD);
+                        $("img[alt='MORENA']").parent().children("h5").html(json.MORENA);
+                        $("img[alt='MC']").parent().children("h5").html(json.MC);
+                        $("img[alt='PT']").parent().children("h5").html(json.PT);
+                        $("img[alt='PVEM']").parent().children("h5").html(json.PVEM);
+                        $("img[alt='PANAL']").parent().children("h5").html(json.PANAL);
+                        $("img[alt='PH']").parent().children("h5").html(json.PH);
+                        $("img[alt='PES']").parent().children("h5").html(json.PES);
+                    });
         });
     });
 });
