@@ -72,7 +72,6 @@ public class Servicio {
             enviar.flush();
             int sent = 0, t;
             long p, size = file.length();
-            System.out.println("Archivo: "+file.getName());
             while(sent < size){
                 byte data[] = new byte[1024];
                 t = entradaArchivo.read(data);
@@ -88,6 +87,5 @@ public class Servicio {
         } catch (IOException ex) {
             System.out.println("Error: "+ex.getMessage());
         }
-        System.out.println("Acaba método");
     }
 }

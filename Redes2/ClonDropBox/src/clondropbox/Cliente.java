@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 public class Cliente extends JFrame implements ActionListener{
-    private JLabel etiqueta;
+    private JLabel etiqueta, etiqueta2;
     private JButton examinar;
     private JList listaServidor;
     private DefaultListModel dlm = new DefaultListModel();
@@ -41,10 +41,12 @@ public class Cliente extends JFrame implements ActionListener{
         this.setLayout(null);
         
         etiqueta = new JLabel("Selecciona archivos con el botón o arrastralos hasta esta ventana");
+        etiqueta2 = new JLabel("Da doble click algún archivo de la lista para descargarlo desde el servidor");
         etiqueta.setBounds(0, 0, 640, 18);
+        etiqueta2.setBounds(0, 18, 640, 18);
         
         listaServidor = new JList();
-        listaServidor.setBounds(150, 20, 200, 400);
+        listaServidor.setBounds(150, 40, 200, 400);
         listaServidor.setBackground(Color.white);
         this.prepararLista();
         listaServidor.setModel(dlm);
@@ -54,17 +56,17 @@ public class Cliente extends JFrame implements ActionListener{
                 if (evt.getClickCount() == 2) {
                     int index = list.locationToIndex(evt.getPoint());
                     conexion.recibirArchivo(dlm.getElementAt(index).toString());
-                    System.out.println("Fin de recibir");
                 }
             }
         });
         
         examinar = new JButton("Examinar");
-        examinar.setBounds(0, 20, 100, 30);
+        examinar.setBounds(0, 40, 100, 30);
         
         examinar.addActionListener(this);
         
         this.add(etiqueta);
+        this.add(etiqueta2);
         this.add(listaServidor);
         this.add(examinar);
         this.setVisible(true);
@@ -90,7 +92,6 @@ public class Cliente extends JFrame implements ActionListener{
         this.prepararLista();
     }
     private void prepararLista(){
-        System.out.println("Prepararlisra");
         try{
             dlm.clear();
             ArrayList<String> archivos = conexion.obtenerListaArchivos();

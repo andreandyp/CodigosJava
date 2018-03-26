@@ -19,11 +19,12 @@ public class Servidor {
             socket = ss.accept();
             System.out.println("Cliente conectado");
             
+            recibir = new DataInputStream(socket.getInputStream());
+            enviar = new DataOutputStream(socket.getOutputStream());
+            enviarArchivos(new File(DIRECTORIO_TRABAJO), enviar);
+            enviar.writeUTF("fin");
+            
             while(true){
-                recibir = new DataInputStream(socket.getInputStream());
-                enviar = new DataOutputStream(socket.getOutputStream());
-                enviarArchivos(new File(DIRECTORIO_TRABAJO), enviar);
-                enviar.writeUTF("fin");
                 System.out.println("Esperando modo...");
                 if(recibir.readBoolean()){
                     String nombre = recibir.readUTF();
@@ -51,6 +52,7 @@ public class Servidor {
                     continue;
                 }
                 
+                
                 String name = recibir.readUTF();
                 long size = recibir.readLong();
                 String ruta = DIRECTORIO_TRABAJO+"/"+name;
@@ -67,6 +69,8 @@ public class Servidor {
 
                 System.out.println("Cliente: "+socket.getInetAddress()+":"+socket.getPort()+ " envió el archivo: "+ name);
                 recibirArchivo.close();
+                enviarArchivos(new File(DIRECTORIO_TRABAJO), enviar);
+                enviar.writeUTF("fin");
                 if(socket.isClosed()){
                     System.out.println("Se cerró el socket");
                     return;
