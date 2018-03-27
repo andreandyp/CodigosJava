@@ -36,9 +36,7 @@ public class Cliente {
             boolean resComando = false;
             System.out.print("Escribe un comando ("+baseActual+"): ");
             comando.insert(0, teclado.nextLine());
-            
-            String[] parametros = comando.toString().toLowerCase().split(" ");
-            
+            String[] parametros = comando.toString().replace('(', ' ').replace(')', ' ').replace(",", "").toLowerCase().split(" ");
             switch(parametros[0]){
                 case "crear":
                     resComando = this.crear(parametros);
@@ -81,6 +79,13 @@ public class Cliente {
             salida.writeInt(1);
             salida.writeInt(2);
             salida.writeUTF(parametros[2]);
+            String [] campos = new String[parametros.length - 3];
+            for(int i = 0; i < parametros.length - 3; i++){
+                campos[i] = parametros[i + 3];
+            }
+            byte []b = String.join(" ", campos).getBytes();
+            salida.writeInt(b.length);
+            salida.write(b);
         }else{
             System.out.println("Comando 'crear' inválido");
             return false;
@@ -133,6 +138,7 @@ public class Cliente {
         }else if(parametros[1].equals("tabla")){
             salida.writeInt(4);
             salida.writeInt(2);
+            salida.writeUTF(parametros[2]);
         }else{
             System.out.println("Comando 'borrar' inválido");
             return false;

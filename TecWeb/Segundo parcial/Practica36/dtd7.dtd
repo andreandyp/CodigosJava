@@ -1,4 +1,0 @@
-<!ELEMENT abuelo (padre)?>
-<!ELEMENT padre (hijo, hija)*>
-<!ELEMENT hijo (#PCDATA)>
-<!ELEMENT hija (#PCDATA)>

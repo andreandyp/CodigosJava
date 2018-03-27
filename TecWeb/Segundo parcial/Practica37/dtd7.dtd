@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT canciones (canción+)>
-<!ELEMENT canción (#PCDATA)>
-<!ATTLIST canción
-          artista NMTOKENS #REQUIRED
-          estado NMTOKENS #REQUIRED>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<gruposexistentes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="esquemagrupos.xsd">
-  <n_grupo alumnos="30" nombregrupo="2cm11" />
-  <n_grupo alumnos="25" nombregrupo="2cm10" />
-  <n_grupo alumnos="12" nombregrupo="4cm5" />
-</gruposexistentes>
-

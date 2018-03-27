@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<Música-en-internet gratuitos="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xsd4.xsd">
-  <servicio gratis="true">Spotify</servicio>
-  <servicio gratis="false">Apple Music</servicio>
-  <servicio gratis="false">Groove Música</servicio>
-  <servicio gratis="false">Google Play Music</servicio>
-  <servicio gratis="true">Deezer</servicio>
-</Música-en-internet>

@@ -1,3 +1,0 @@
-<!ELEMENT apps (social+,juegos?)>
-<!ELEMENT social (#PCDATA)>
-<!ELEMENT juegos (#PCDATA)>

@@ -1,5 +1,0 @@
-<!ELEMENT SSOO (Escritorio+, Movil+)?>
-<!ELEMENT Escritorio (#PCDATA)>
-<!ATTLIST Escritorio
-          nucleo CDATA #REQUIRED>
-<!ELEMENT Movil (#PCDATA)>

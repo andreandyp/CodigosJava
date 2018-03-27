@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT frameworks (framework)>
-<!ELEMENT framework (#PCDATA)>
-<!ATTLIST framework
-          lenguaje CDATA #REQUIRED
-          uso CDATA #REQUIRED>

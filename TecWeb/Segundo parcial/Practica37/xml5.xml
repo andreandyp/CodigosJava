@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE horario SYSTEM "dtd5.dtd">
-<horario>
-  <grupo id="CM7" horario="7:00-8:30">Programación Orientada a Objetos</grupo>
-  <grupo id="CM2" horario="10:30-12:00">Sistemas Operativos</grupo>
-  <alumno grupo="CM7 CM2" nivel="2" regular="true">André Michel</alumno>
-</horario>

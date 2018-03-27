@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE biblioteca SYSTEM "dtd4.dtd">
-<biblioteca>
-  <libro id="L1" autor="Laurie Elizabeth Flynn">Soy tu primera vez</libro>
-  <compra libro="L1" fechaCompra="17/09/2016">Compra efectiva</compra>
-  <libro id="L2" autor="María Isabel Nájera Sepúlveda">Esperanto y comunicación humana</libro>
-  <préstamo libro="L2" fechaPrestamo="18/09/2016" fechaRegreso="30/09/2016">Préstamo efectuado</préstamo>
-</biblioteca>

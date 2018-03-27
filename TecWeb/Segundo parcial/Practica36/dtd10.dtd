@@ -1,8 +1,0 @@
-<!ELEMENT artes (musica*, escultura*, pintura*, baile*, escritura*, teatro*,cine*)>
-<!ELEMENT musica (#PCDATA)>
-<!ELEMENT escultura (#PCDATA)>
-<!ELEMENT pintura (#PCDATA)>
-<!ELEMENT baile (#PCDATA)>
-<!ELEMENT escritura (#PCDATA)>
-<!ELEMENT teatro (#PCDATA)>
-<!ELEMENT cine (#PCDATA)>

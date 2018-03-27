@@ -1,7 +1,0 @@
-<!ELEMENT comida (dulce,salada)+>
-<!ELEMENT dulce (postres,golosinas)?>
-<!ELEMENT postres (#PCDATA)>
-<!ELEMENT golosinas (#PCDATA)>
-<!ELEMENT salada (carnes,verduras)*>
-<!ELEMENT carnes (#PCDATA)>
-<!ELEMENT verduras (#PCDATA)>

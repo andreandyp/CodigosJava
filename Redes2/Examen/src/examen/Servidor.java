@@ -26,7 +26,7 @@ public class Servidor {
         this.puerto = puerto;
         serverSocket = new ServerSocket(puerto, 50, InetAddress.getByName(ip));
         System.out.println("Servidor listo en: "+ip+":"+puerto);
-        bases.put(baseActual, new HashMap<String, LinkedList>());
+        bases.put(baseActual, new HashMap<String, LinkedList<Object> >());
         this.iniciar();
     }
     
@@ -63,12 +63,27 @@ public class Servidor {
                 enviarMensaje(false, "La base ya existe");
             }
             else{
-                bases.put(nombre, new HashMap<String, LinkedList>());
+                bases.put(nombre, new HashMap<String, LinkedList<Object> >());
                 enviarMensaje(true, "Base '"+nombre+"' creada");
             }
         }
         else{
-            System.out.println("Tabla "+nombre);
+            int tamaño = entrada.readInt();
+            byte[] b = new byte[tamaño];
+            entrada.read(b);
+            String[] campos = new String(b).split(" ");
+            if(bases.get(baseActual).containsKey(nombre)){
+                enviarMensaje(false, "La tabla ya existe");
+            }else{
+                Compilador javac = new Compilador(nombre, campos);
+                if(javac.compilar()){
+                    bases.get(baseActual).put(nombre, new LinkedList<Object>());
+                    enviarMensaje(true, "Tabla creada");
+                }
+                else{
+                    enviarMensaje(false, "No se pudo crear la tabla. Campos incorrectos");
+                }
+            }
         }
     }
     
@@ -94,7 +109,11 @@ public class Servidor {
             enviarMensaje(true, resultados.toString());
         }
         else if(operacion == 2){
-            System.out.println("Mostrar base "+nombre);
+            for(Object tabla : bases.get(baseActual).keySet()){
+                resultados.append("\n");
+                resultados.append(tabla.toString());
+            }
+            enviarMensaje(true, resultados.toString());
         }
         else{
             System.out.println("Mostrar tabla "+nombre);
@@ -106,8 +125,18 @@ public class Servidor {
             if(bases.containsKey(nombre)){
                 bases.remove(nombre);
                 enviarMensaje(true, "Base '"+nombre+"' borrada");
-            }else{
+            }
+            else{
                 enviarMensaje(false, "La base no existe");
+            }
+        }
+        else{
+            if(bases.get(baseActual).containsKey(nombre)){
+                bases.get(baseActual).remove(nombre);
+                enviarMensaje(true, "Tabla '"+nombre+"' borrada");
+            }
+            else{
+                enviarMensaje(false, "La tabla no existe");
             }
         }
     }

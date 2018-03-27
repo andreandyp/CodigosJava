@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE raiz SYSTEM "dtd1.dtd">
-<raiz>
-  <elemento1 atributo1="true"></elemento1>
-  <elemento1 atributo1="false"></elemento1>
-  <elemento2 atributo2="17"></elemento2>
-</raiz>
