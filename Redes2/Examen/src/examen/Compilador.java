@@ -11,17 +11,23 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
 public class Compilador {
     private final String nombreTabla;
     private StringWriter writer;
+    
+    public Compilador(String nombreTabla){
+        this.nombreTabla = nombreTabla;
+    }
     
     public Compilador(String nombreTabla, String [] campos) throws IOException {
         this.nombreTabla = nombreTabla;
@@ -38,7 +44,7 @@ public class Compilador {
     private void crearClase(String [] campos, PrintWriter out){
         out.println("public class "+nombreTabla+"{");
         for(int i = 0, j = 1; i < campos.length; i += 2, j += 2){
-            out.print("private ");
+            out.print("public ");
             if(campos[i].equals("string")){
                 out.print("String");
             }else{
@@ -48,24 +54,15 @@ public class Compilador {
             out.print("\n");
         }
 
-        out.print("\n");
-        out.print("public "+nombreTabla+"(");
-
+        out.println("public "+nombreTabla+"(){}");
+        out.println("@Override");
+        out.println("public String toString(){");
+        out.print("return ");
         for(int i = 0, j = 1; i < campos.length; i += 2, j += 2){
-            if(campos[i].equals("string")){
-                out.print("String");
-            }else{
-                out.print(campos[i]);
-            }
-            out.print(" "+campos[j]);
-            out.print(j == campos.length - 1? "" : ", ");
+            out.print("\" "+campos[j]+": \"+this."+campos[j]+"");
+            out.print(j == campos.length - 1? "" : "+");
         }
-
-        out.println("){");
-
-        for(int i = 1; i < campos.length; i += 2){
-            out.println("this."+campos[i]+" = "+campos[i]+";");
-        }
+        out.println(";");
         out.println("}");
         out.println("}");
     }
@@ -93,13 +90,58 @@ public class Compilador {
             System.out.println(diagnostic.getMessage(null));
 
         }
-        System.out.println("Success: " + success);
         return success;
     }
     
-    public Object instanciar(String nombreClase) throws MalformedURLException, ClassNotFoundException{
+    public Object instanciar(ArrayList datos) throws MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException{
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] { new File("").toURI().toURL() });
-        return Class.forName(nombreClase, true, classLoader).getConstructors();
+        Class clase = Class.forName(nombreTabla, true, classLoader);
+        
+        Object instancia = clase.newInstance();
+        Field [] campos = clase.getFields();
+        
+        if(campos.length != datos.size()){
+            return null;
+        }
+        
+        for(int i = 0; i < campos.length; i++){
+            try{
+                switch(campos[i].getType().toString()){
+                    case "byte":
+                        campos[i].set(instancia, Byte.parseByte(datos.get(i).toString()));
+                        break;
+                    case "short":
+                        campos[i].set(instancia, Short.parseShort(datos.get(i).toString()));
+                        break;
+                    case "int":
+                        campos[i].set(instancia, Integer.parseInt(datos.get(i).toString()));
+                        break;
+                    case "long":
+                        campos[i].set(instancia, Long.parseLong(datos.get(i).toString()));
+                        break;
+                    case "float":
+                        campos[i].set(instancia, Float.parseFloat(datos.get(i).toString()));
+                        break;
+                    case "double":
+                        campos[i].set(instancia, Double.parseDouble(datos.get(i).toString()));
+                        break;
+                    case "boolean":
+                        campos[i].set(instancia, Boolean.parseBoolean(datos.get(i).toString()));
+                        break;
+                    case "char":
+                        campos[i].set(instancia, datos.get(i).toString().charAt(1));
+                        break;
+                    case "class java.lang.String":
+                        campos[i].set(instancia, datos.get(i).toString());
+                        break;
+                }
+            }
+            catch(NumberFormatException ex){
+                return null;
+            }
+        }
+        classLoader.close();
+        return instancia;
     }
 }
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cliente {
@@ -51,7 +52,7 @@ public class Cliente {
                     resComando = this.borrar(parametros);
                     break;
                 case "insertar":
-                    //resComando = this.insertar(parametros);
+                    resComando = this.insertar(parametros);
                     break;
                 case "actualizar":
                     //resComando = this.actualizar(parametros);
@@ -71,6 +72,10 @@ public class Cliente {
     }
 
     private boolean crear(String[] parametros) throws IOException {
+        if(parametros.length < 3){
+            System.out.println("Comando 'crear' inválido");
+            return false;
+        }
         if(parametros[1].equals("base")){
             salida.writeInt(1);
             salida.writeInt(1);
@@ -110,10 +115,18 @@ public class Cliente {
             salida.writeInt(1);
             salida.writeUTF("");
         }else if(parametros[1].equals("base")){
+            if(parametros.length < 3){
+                System.out.println("Comando 'mostrar' inválido");
+                return false;
+            }
             salida.writeInt(3);
             salida.writeInt(2);
             salida.writeUTF(parametros[2]);
         }else if(parametros[1].equals("tabla")){
+            if(parametros.length < 3){
+                System.out.println("Comando 'mostrar' inválido");
+                return false;
+            }
             salida.writeInt(3);
             salida.writeInt(3);
             salida.writeUTF(parametros[2]);
@@ -127,6 +140,10 @@ public class Cliente {
     }
 
     private boolean borrar(String[] parametros) throws IOException {
+        if(parametros.length < 3){
+            System.out.println("Comando 'borrar' inválido");
+            return false;
+        }
         if(parametros[1].equals("base")){
             if(parametros[2].equals(baseActual)){
                 System.out.println("No puedes borrar la base en uso");
@@ -153,10 +170,25 @@ public class Cliente {
         }
     }
     
-    private void insertar(String[] parametros) {
-        for(String n : parametros){
-            System.out.println(n);
+    private boolean insertar(String[] parametros) throws IOException {
+        salida.writeInt(5);
+        salida.writeUTF(parametros[parametros.length - 1]);
+        
+        ArrayList<String> campos = new ArrayList<String>();
+        for(int i = 1; i < parametros.length; i++){
+            if(parametros[i].equals("")){
+                continue;
+            }
+            if(parametros[i].equals("en")){
+                break;
+            }
+            campos.add(parametros[i]);
         }
+        byte []b = String.join(" ", campos).getBytes();
+        salida.writeInt(b.length);
+        salida.write(b);
+            
+        return true;
     }
     
     public static void main(String[] args) {
