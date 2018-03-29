@@ -7,7 +7,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,9 +20,8 @@ public class Cliente {
     
     public Cliente(int puerto) throws IOException{
         teclado = new Scanner(System.in);
-        //System.out.print("Sácate la IP que vengo bien TCP: ");
-        //String ip = teclado.nextLine();
-        String ip = "127.0.0.1";
+        System.out.print("Sácate la IP que vengo bien TCP: ");
+        String ip = teclado.nextLine();
         this.inicializar(ip, puerto);
         this.leerComandos();
     }
@@ -96,6 +94,14 @@ public class Cliente {
                     }
                     else{
                         System.out.println("Comando 'actualizar' incorrecto");
+                    }
+                    break;
+                case "buscar":
+                    if(palabras.size() >= 3 && palabras.get(1).equals("en")){
+                        resComando = this.buscar(palabras.get(2), comando.toString());
+                    }
+                    else{
+                        System.out.println("Comando 'buscar' incorrecto");
                     }
                     break;
                 case "salir":
@@ -205,6 +211,7 @@ public class Cliente {
         salida.writeInt(5);
         salida.writeUTF(nombreTabla);
         ArrayList<String> params = analizador(com, "(\\\".*\\\")|(\\d+[lL]?\\.*\\d*[fF]?)|(true|false)|(\\'.*\\')");
+        System.out.println(params.size());
         if(params.size() != 0){
             byte []b = String.join("\r", params).getBytes();
             salida.writeInt(b.length);
@@ -217,14 +224,38 @@ public class Cliente {
     }
     
     private boolean actualizar(String nombreTabla, String com) throws IOException {
-        ArrayList<String> params = analizador(com, "(\\d+[lL]?\\.?\\d*[fF]?)|(\\\"([a-zA-Z0-9ñÑ]+\\s?)+\\\")|([a-zA-Z0-9ñÑ]+)|(true|false)|(\\'.*\\')");
+        ArrayList<String> params = analizador(com, "(\\d+[lL]?\\.?\\d*[fF]?)|(\\\"([a-zA-Z0-9\\u00f1\\u00d1]+\\s?)+\\\")|([a-zA-Z0-9ñÑ]+)|(true|false)|(\\'.*\\')");
         params.remove(0);
         params.remove(0);
         params.remove(0);
-        salida.writeInt(6);
-        salida.writeUTF(nombreTabla);
-        if(params.size() > 0 && params.size() % 2 == 0 && params.contains("donde")){
-            params.remove(params.size() - 2);
+        if(!params.contains("donde")){
+            System.out.println("Falta busqueda");
+            return false;
+        }
+        params.remove("donde");
+        System.out.println(params.size());
+        if(params.size() > 0 && params.size() % 2 == 0){
+            salida.writeInt(6);
+            salida.writeUTF(nombreTabla);
+            byte []b = String.join("\r", params).getBytes();
+            salida.writeInt(b.length);
+            salida.write(b);
+            return true;
+        }else{
+            System.out.println("Faltan parámetros");
+            return false;
+        }
+    }
+    
+    private boolean buscar(String nombreTabla, String com) throws IOException {
+        ArrayList<String> params = analizador(com, "(\\d+[lL]?\\.?\\d*[fF]?)|(\\\"([a-zA-Z0-9\\u00f1\\u00d1]+\\s?)+\\\")|([a-zA-Z0-9ñÑ]+)|(true|false)|(\\'.*\\')");
+        params.remove(0);
+        params.remove(0);
+        params.remove(0);
+        System.out.println(params.size());
+        if(params.size() > 0 && params.size() % 2 == 0){
+            salida.writeInt(7);
+            salida.writeUTF(nombreTabla);
             byte []b = String.join("\r", params).getBytes();
             salida.writeInt(b.length);
             salida.write(b);
@@ -260,8 +291,4 @@ public class Cliente {
         return palabras;
     }
 
-    private ArrayList <String> obtenerParametros(String params, String convetir) {
-        ArrayList <String> parametros = new ArrayList<String>(Arrays.asList(params.replace(convetir, "").split(" ")));
-        return parametros;
-    }
 }

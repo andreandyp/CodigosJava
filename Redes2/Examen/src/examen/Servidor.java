@@ -21,18 +21,18 @@ public class Servidor {
     private DataOutputStream salida;
     private HashMap <String, HashMap> bases = new HashMap<String, HashMap>();
             
-    public Servidor(String ip, int puerto) throws UnknownHostException, IOException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public Servidor(String ip, int puerto) throws UnknownHostException, IOException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException {
         serverSocket = new ServerSocket(puerto, 50, InetAddress.getByName(ip));
         System.out.println("Servidor listo en: "+ip+":"+puerto);
         bases.put(baseActual, new HashMap<String, LinkedList<Object> >());
         
         //Depuración:
         bases.get(baseActual).put("Prueba", new LinkedList<Object>());
-        ((LinkedList) bases.get(baseActual).get("Prueba")).add(new Prueba((byte) 1,(short) 31, 20, 100L, 9.0F, 9.0, true, 'S', "Susy"));
+        ((LinkedList) bases.get(baseActual).get("Prueba")).add(new Prueba((byte) 1,(short) 31, 20, 100L, 9.0F, 9.0, true, 'S', "\"Susy\""));
         this.iniciar();
     }
     
-    private void iniciar() throws IOException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+    private void iniciar() throws IOException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, NoSuchFieldException{
         socket = serverSocket.accept();
         System.out.println("Cliente conectado");
         entrada = new DataInputStream(socket.getInputStream());
@@ -189,23 +189,49 @@ public class Servidor {
         }        
     }
     
-    private void actualizar(String nombreTabla) throws IOException, InstantiationException, IllegalAccessException{
+    private void actualizar(String nombreTabla) throws IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchFieldException{
         int longitud = entrada.readInt();
         byte []b = new byte[longitud];
         entrada.read(b);
         ArrayList<String> datos = new ArrayList<String>(Arrays.asList(new String(b).split("\r")));
         if(bases.get(baseActual).containsKey(nombreTabla)){
+            LinkedList tabla = (LinkedList) bases.get(baseActual).get(nombreTabla);
+            
             Compilador c = new Compilador(nombreTabla);
-            Object actualizable = (bases.get(baseActual).get(nombreTabla));
-            c.actualizar(actualizable, datos);
+            Object actualizable = c.buscar(tabla, datos.get(datos.size() - 2), datos.get(datos.size() - 1));
+            if(actualizable == null){
+                enviarMensaje(false, "El objeto no se encuentra");
+                return;
+            }
+            datos.remove(datos.size() - 1);
+            datos.remove(datos.size() - 1);
+            ((LinkedList) bases.get(baseActual).get(nombreTabla)).remove(actualizable);
+            Object nuevo = c.actualizar(actualizable, datos);
+            ((LinkedList) bases.get(baseActual).get(nombreTabla)).add(nuevo);
             enviarMensaje(true, "Actualización exitosa");
         }else{
             enviarMensaje(false, "La tabla no existe");
         }
     }
     
-    private void buscar(String nombreTabla){
-        
+    private void buscar(String nombreTabla) throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException{
+        int longitud = entrada.readInt();
+        byte []b = new byte[longitud];
+        entrada.read(b);
+        ArrayList<String> datos = new ArrayList<String>(Arrays.asList(new String(b).split("\r")));
+        if(bases.get(baseActual).containsKey(nombreTabla)){
+            LinkedList tabla = (LinkedList) bases.get(baseActual).get(nombreTabla);
+            
+            Compilador c = new Compilador(nombreTabla);
+            Object actualizable = c.buscar(tabla, datos.get(datos.size() - 2), datos.get(datos.size() - 1));
+            if(actualizable == null){
+                enviarMensaje(false, "El objeto no se encuentra");
+                return;
+            }
+            enviarMensaje(true, actualizable.toString());
+        }else{
+            enviarMensaje(false, "La tabla no existe");
+        }
     }
     
     private void enviarMensaje(boolean resultado, String mensaje) throws IOException{
@@ -217,6 +243,9 @@ public class Servidor {
         try {
             new Servidor("127.0.0.1", 1336);
         } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
+            System.out.println("Valió barriga: "+ex.getMessage());
+            ex.printStackTrace();
+        } catch (IllegalArgumentException | NoSuchFieldException ex) {
             System.out.println("Valió barriga: "+ex.getMessage());
             ex.printStackTrace();
         }

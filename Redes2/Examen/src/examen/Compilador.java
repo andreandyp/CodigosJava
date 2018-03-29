@@ -19,6 +19,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 
 public class Compilador {
@@ -124,22 +125,52 @@ public class Compilador {
         return instancia;
     }
     
-    public Object actualizar(Object actualizable, ArrayList<String> nuevos) throws InstantiationException, IllegalAccessException{
-        Class clase = actualizable.getClass();
+    public Object buscar(LinkedList <Object> tabla, String clave, String valor) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException{
+        for(Object obj : tabla){
+            System.out.println(obj.getClass().getField(clave).get(obj));
+            System.out.println(valor);
+            if(obj.getClass().getField(clave).get(obj).toString().equals(valor)){
+                return obj;
+            }
+        }
         
-        Object instancia = clase.newInstance();
-        ArrayList<Field> campos = new ArrayList<Field>(Arrays.asList(clase.getFields()));
+        return null;
+    }
+    
+    public Object actualizar(Object actualizable, ArrayList<String> nuevos) throws InstantiationException, IllegalAccessException, NoSuchFieldException{
+        ArrayList<Field> campos = new ArrayList<Field>(Arrays.asList(actualizable.getClass().getFields()));
         
-        for(int i = 0; i < campos.size(); i++){
-            try{
-                if(nuevos.contains(campos.get(i).getName())){
-                    convertir(i, campos, instancia, nuevos);
-                }
-                else{
-                    convetir()
-                }
-            }catch(Exception ex){
-                System.out.println("Valió barriga: "+ex.getMessage());
+        for(int i = 0, j = 1; i < nuevos.size(); i += 2, j += 2){
+            Field campo = actualizable.getClass().getField(nuevos.get(i));
+            
+            switch(campo.getType().toString()){
+                case "byte":
+                    campo.set(actualizable, Byte.parseByte(nuevos.get(j).toString()));
+                    break;
+                case "short":
+                    campo.set(actualizable, Short.parseShort(nuevos.get(j).toString()));
+                    break;
+                case "int":
+                    campo.set(actualizable, Integer.parseInt(nuevos.get(j).toString()));
+                    break;
+                case "long":
+                    campo.set(actualizable, Long.parseLong(nuevos.get(j).toString()));
+                    break;
+                case "float":
+                    campo.set(actualizable, Float.parseFloat(nuevos.get(j).toString()));
+                    break;
+                case "double":
+                    campo.set(actualizable, Double.parseDouble(nuevos.get(j).toString()));
+                    break;
+                case "boolean":
+                    campo.set(actualizable, Boolean.parseBoolean(nuevos.get(j).toString()));
+                    break;
+                case "char":
+                    campo.set(actualizable, nuevos.get(j).toString().charAt(1));
+                    break;
+                case "class java.lang.String":
+                    campo.set(actualizable, nuevos.get(j).toString());
+                    break;
             }
         }
         
