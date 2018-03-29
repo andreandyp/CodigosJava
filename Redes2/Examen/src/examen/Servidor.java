@@ -14,9 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Servidor {
-    private final String ip;
     private String baseActual = "pruebas";
-    private final int puerto;
     private ServerSocket serverSocket;
     private Socket socket;
     private DataInputStream entrada;
@@ -24,15 +22,13 @@ public class Servidor {
     private HashMap <String, HashMap> bases = new HashMap<String, HashMap>();
             
     public Servidor(String ip, int puerto) throws UnknownHostException, IOException, MalformedURLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        this.ip = ip;
-        this.puerto = puerto;
         serverSocket = new ServerSocket(puerto, 50, InetAddress.getByName(ip));
         System.out.println("Servidor listo en: "+ip+":"+puerto);
         bases.put(baseActual, new HashMap<String, LinkedList<Object> >());
         
         //Depuración:
-        bases.get(baseActual).put("primitivos", new LinkedList<Object>());
-        ((LinkedList) bases.get(baseActual).get("primitivos")).add(new Prueba((byte) 1,(short) 31, 20, 100L, 9.0F, 9.0, true, 'S', "Susy"));
+        bases.get(baseActual).put("Prueba", new LinkedList<Object>());
+        ((LinkedList) bases.get(baseActual).get("Prueba")).add(new Prueba((byte) 1,(short) 31, 20, 100L, 9.0F, 9.0, true, 'S', "Susy"));
         this.iniciar();
     }
     
@@ -46,23 +42,31 @@ public class Servidor {
             switch(entrada.readInt()){
                 case 1:
                     System.out.println("Operación crear");
-                    this.crear(entrada.readInt(), entrada.readUTF());
+                    crear(entrada.readInt(), entrada.readUTF());
                     break;
                 case 2:
                     System.out.println("Operación usar");
-                    this.usar(entrada.readUTF());
+                    usar(entrada.readUTF());
                     break;
                 case 3:
                     System.out.println("Operación mostrar");
-                    this.mostrar(entrada.readInt(), entrada.readUTF());
+                    mostrar(entrada.readInt(), entrada.readUTF());
                     break;
                 case 4:
                     System.out.println("Operación borrar");
-                    this.borrar(entrada.readInt(), entrada.readUTF());
+                    borrar(entrada.readInt(), entrada.readUTF());
                     break;
                 case 5:
                     System.out.println("Operación insertar");
-                    this.insertar(entrada.readUTF());
+                    insertar(entrada.readUTF());
+                    break;
+                case 6:
+                    System.out.println("Operación actualizar");
+                    actualizar(entrada.readUTF());
+                    break;
+                case 7:
+                    System.out.println("Operación buscar");
+                    buscar(entrada.readUTF());
                     break;
             }
         }
@@ -120,14 +124,21 @@ public class Servidor {
             enviarMensaje(true, resultados.toString());
         }
         else if(operacion == 2){
-            for(Object tabla : bases.get(baseActual).keySet()){
+            if(!bases.containsKey(nombre)){
+                enviarMensaje(false, "La base no existe");
+                return;
+            }
+            for(Object tabla : bases.get(nombre).keySet()){
                 resultados.append("\n");
                 resultados.append(tabla.toString());
             }
             enviarMensaje(true, resultados.toString());
         }
         else{
-            System.out.println("Tamaño lista: "+((LinkedList) bases.get(baseActual).get(nombre)).size());
+            if(!bases.get(baseActual).containsKey(nombre)){
+                enviarMensaje(false, "La tabla no existe");
+                return;
+            }
             for(Object registro : ((LinkedList) bases.get(baseActual).get(nombre))){
                 resultados.append("\n");
                 resultados.append(registro.toString());
@@ -161,7 +172,7 @@ public class Servidor {
         int longitud = entrada.readInt();
         byte []b = new byte[longitud];
         entrada.read(b);
-        ArrayList<String> datos = new ArrayList<String>(Arrays.asList(new String(b).split(" ")));
+        ArrayList<String> datos = new ArrayList<String>(Arrays.asList(new String(b).split("\r")));
         
         if(bases.get(baseActual).containsKey(nombreTabla)){
             Compilador c = new Compilador(nombreTabla);
@@ -178,6 +189,25 @@ public class Servidor {
         }        
     }
     
+    private void actualizar(String nombreTabla) throws IOException, InstantiationException, IllegalAccessException{
+        int longitud = entrada.readInt();
+        byte []b = new byte[longitud];
+        entrada.read(b);
+        ArrayList<String> datos = new ArrayList<String>(Arrays.asList(new String(b).split("\r")));
+        if(bases.get(baseActual).containsKey(nombreTabla)){
+            Compilador c = new Compilador(nombreTabla);
+            Object actualizable = (bases.get(baseActual).get(nombreTabla));
+            c.actualizar(actualizable, datos);
+            enviarMensaje(true, "Actualización exitosa");
+        }else{
+            enviarMensaje(false, "La tabla no existe");
+        }
+    }
+    
+    private void buscar(String nombreTabla){
+        
+    }
+    
     private void enviarMensaje(boolean resultado, String mensaje) throws IOException{
         salida.writeBoolean(resultado);
         salida.writeUTF(mensaje);
@@ -186,7 +216,7 @@ public class Servidor {
     public static void main(String[] args) {
         try {
             new Servidor("127.0.0.1", 1336);
-        } catch (Exception ex) {
+        } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException ex) {
             System.out.println("Valió barriga: "+ex.getMessage());
             ex.printStackTrace();
         }

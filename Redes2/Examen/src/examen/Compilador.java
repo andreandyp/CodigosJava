@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -53,8 +53,16 @@ public class Compilador {
             out.print(" "+campos[j]+";");
             out.print("\n");
         }
-
+        
         out.println("public "+nombreTabla+"(){}");
+        
+        for(int i = 0, j = 1; i < campos.length; i += 2, j += 2){
+            out.println("public "+campos[i]+" get"+campos[j]+"(){");
+            out.println("return this."+campos[j]+";");
+            out.println("}");
+        }
+        out.print("\n");
+        
         out.println("@Override");
         out.println("public String toString(){");
         out.print("return ");
@@ -103,45 +111,71 @@ public class Compilador {
         if(campos.length != datos.size()){
             return null;
         }
-        
         for(int i = 0; i < campos.length; i++){
             try{
-                switch(campos[i].getType().toString()){
-                    case "byte":
-                        campos[i].set(instancia, Byte.parseByte(datos.get(i).toString()));
-                        break;
-                    case "short":
-                        campos[i].set(instancia, Short.parseShort(datos.get(i).toString()));
-                        break;
-                    case "int":
-                        campos[i].set(instancia, Integer.parseInt(datos.get(i).toString()));
-                        break;
-                    case "long":
-                        campos[i].set(instancia, Long.parseLong(datos.get(i).toString()));
-                        break;
-                    case "float":
-                        campos[i].set(instancia, Float.parseFloat(datos.get(i).toString()));
-                        break;
-                    case "double":
-                        campos[i].set(instancia, Double.parseDouble(datos.get(i).toString()));
-                        break;
-                    case "boolean":
-                        campos[i].set(instancia, Boolean.parseBoolean(datos.get(i).toString()));
-                        break;
-                    case "char":
-                        campos[i].set(instancia, datos.get(i).toString().charAt(1));
-                        break;
-                    case "class java.lang.String":
-                        campos[i].set(instancia, datos.get(i).toString());
-                        break;
-                }
+                convertir(i, campos, instancia, datos);
             }
             catch(NumberFormatException ex){
+                System.out.println("Error: "+ex.getMessage());
                 return null;
             }
         }
         classLoader.close();
         return instancia;
+    }
+    
+    public Object actualizar(Object actualizable, ArrayList<String> nuevos) throws InstantiationException, IllegalAccessException{
+        Class clase = actualizable.getClass();
+        
+        Object instancia = clase.newInstance();
+        ArrayList<Field> campos = new ArrayList<Field>(Arrays.asList(clase.getFields()));
+        
+        for(int i = 0; i < campos.size(); i++){
+            try{
+                if(nuevos.contains(campos.get(i).getName())){
+                    convertir(i, campos, instancia, nuevos);
+                }
+                else{
+                    convetir()
+                }
+            }catch(Exception ex){
+                System.out.println("Valió barriga: "+ex.getMessage());
+            }
+        }
+        
+        return actualizable;
+    }
+    
+    private void convertir(int i, Field[] campos, Object instancia, ArrayList datos) throws IllegalArgumentException, IllegalAccessException{
+        switch(campos[i].getType().toString()){
+            case "byte":
+                campos[i].set(instancia, Byte.parseByte(datos.get(i).toString()));
+                break;
+            case "short":
+                campos[i].set(instancia, Short.parseShort(datos.get(i).toString()));
+                break;
+            case "int":
+                campos[i].set(instancia, Integer.parseInt(datos.get(i).toString()));
+                break;
+            case "long":
+                campos[i].set(instancia, Long.parseLong(datos.get(i).toString()));
+                break;
+            case "float":
+                campos[i].set(instancia, Float.parseFloat(datos.get(i).toString()));
+                break;
+            case "double":
+                campos[i].set(instancia, Double.parseDouble(datos.get(i).toString()));
+                break;
+            case "boolean":
+                campos[i].set(instancia, Boolean.parseBoolean(datos.get(i).toString()));
+                break;
+            case "char":
+                campos[i].set(instancia, datos.get(i).toString().charAt(1));
+                break;
+            case "class java.lang.String":
+                campos[i].set(instancia, datos.get(i).toString());
+                break;
+        }
     }
 }
 
