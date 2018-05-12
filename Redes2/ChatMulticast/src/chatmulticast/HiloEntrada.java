@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
-import com.vdurmont.emoji.EmojiParser;
 
 
 public class HiloEntrada extends Thread {
@@ -45,7 +44,6 @@ public class HiloEntrada extends Thread {
 
             try {
                 socket.receive(recv);
-                System.out.println("len: "+recv.getLength());
             } catch (IOException ex) {
                 System.out.println("Valió barriga: "+ex.getMessage());
             }
@@ -57,6 +55,12 @@ public class HiloEntrada extends Thread {
             byte data[] = new byte[recv.getLength()];
             for(int i = 0; i < recv.getLength(); i++){
                 data[i] = recv.getData()[i];
+            }
+            String mensaje = new String(data);
+            if(mensaje.equals("archivo")){
+                System.out.println("Es");
+            }else{
+                System.out.println("No es");
             }
             entrante.append(new String(data)).append("</p></body></html>");
             

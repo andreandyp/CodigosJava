@@ -15,23 +15,33 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import com.vdurmont.emoji.EmojiParser;
-import com.vdurmont.emoji.EmojiManager;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.util.Collection;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import javax.swing.JEditorPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
  
 public class MultiClient extends JFrame implements ActionListener{
     private String nombre = "";
     private HiloEntrada entrada;
-    private JEditorPane texto;
-    private JLabel tag1, tag2, tag3;
-    private JButton enviar, limpiar;
-    private JList mensajes, emojis;
-    private DefaultListModel listaMensajes = new DefaultListModel();
-    private DefaultListModel listaemojis = new DefaultListModel();
-    private JScrollPane scroll, scrollemojis;
+    private final JEditorPane texto;
+    private final JLabel tag1, tag2, tag3;
+    private final JButton enviar, limpiar;
+    private final JList mensajes;
+    private final JTable emojis;
+    private final DefaultListModel listaMensajes = new DefaultListModel();
+    private final DefaultTableModel listaemojis = new DefaultTableModel(){
+        @Override
+        public boolean isCellEditable(int row, int column) {
+           return false;
+        }
+    };
+    private final JScrollPane scroll, scrollemojis;
     private MulticastSocket socket;
     public static final String MCAST_ADDR  = "230.0.0.1";
     public static final int MCAST_PORT = 9013;
@@ -51,7 +61,7 @@ public class MultiClient extends JFrame implements ActionListener{
         enviar = new JButton("Enviar");
         limpiar = new JButton("Limpiar");
         mensajes = new JList();
-        emojis = new JList();
+        emojis = new JTable();
         scroll = new JScrollPane(mensajes);
         scrollemojis = new JScrollPane(emojis);
         tag1.setBounds(10, 35, 200, 15);
@@ -67,18 +77,23 @@ public class MultiClient extends JFrame implements ActionListener{
         mensajes.setLayoutOrientation(JList.VERTICAL);
         mensajes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         mensajes.setFont(new Font("Segoe UI Emoji", 0, 14));
-        Font fuentes[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
         emojis.setModel(listaemojis);
-        emojis.setLayoutOrientation(JList.VERTICAL);
-        emojis.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        emojis.setSelectionBackground(Color.WHITE);
+        new HiloEmojis(listaemojis).start();
         emojis.setFont(new Font("Segoe UI Emoji", 0, 14));
+        emojis.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(e.getClickCount() == 2){
+                    int fila = emojis.rowAtPoint(e.getPoint());
+                    int columna = emojis.columnAtPoint(e.getPoint());
+                    texto.setText(texto.getText()+emojis.getValueAt(fila, columna)+" ");
+                }
+            }
+        });
         scroll.setBounds(320, 60, 300, 260);
-        scrollemojis.setBounds(10, 200, 100, 250);
-        Collection<Emoji> emojis = EmojiManager.getAll();
-        System.out.println(emojis.size());
-        for(Emoji e : emojis){
-            listaemojis.addElement(e.getUnicode());
-        }
+        scrollemojis.setBounds(10, 200, 300, 230);
+        
         super.add(tag1);
         super.add(tag2);
         super.add(tag3);
@@ -119,15 +134,23 @@ public class MultiClient extends JFrame implements ActionListener{
         if(e.getSource().equals(enviar)){
             String mensaje = nombre+" dice: "+EmojiParser.parseToHtmlDecimal(texto.getText());
             DatagramPacket paquete = new DatagramPacket(mensaje.getBytes(), mensaje.length(), grupo, MCAST_PORT);
-            System.out.println("Paq "+paquete.getLength());
-            System.out.println("Mens "+mensaje.length());
             try {
                 socket.setTimeToLive(32);
                 socket.send(paquete);
+                
+                /*byte[] sendData = new byte[512];
+                String filePath = "C:\\in.txt";
+        File file = new File(filePath);
+        FileInputStream fis = new FileInputStream(file);
+                System.out.println("len "+file.length());*/
+        
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             }
-            texto.setText("");
+            finally{
+                texto.setText("");
+                texto.update(texto.getGraphics());
+            }
         }
         else if(e.getSource().equals(limpiar)){
             listaMensajes.clear();
