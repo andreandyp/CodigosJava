@@ -1,8 +1,11 @@
 package examenurl;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,7 +67,52 @@ public class ExamenURL{
                 enlace.attr("href", analizador(enlace.attr("href"), "(?<=//).+")+".html");
             }
             
-            BufferedWriter writer = new BufferedWriter(new FileWriter("index.html"));
+            Elements archivosjs = doc.select("script");
+            for(Element js : archivosjs){
+                String ruta = js.attr("src");
+                String nuevaRuta = "descargas\\assets\\js\\"+ruta.substring(ruta.lastIndexOf("/")+1);
+                
+                URL url2 = new URL(url+"/"+ruta);
+                try{
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+                
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(nuevaRuta));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                    }
+                    js.attr("src", "assets/js/"+ruta.substring(ruta.lastIndexOf("/")+1));
+                    reader.close();
+                    writer.close();
+                }
+                catch(Exception ex){
+                    continue;
+                }
+            }
+            
+            Elements archivosCSS = doc.select("link");
+            for(Element css : archivosCSS){
+                String ruta = css.attr("href");
+                String nuevaRuta = "descargas\\assets\\css\\"+ruta.substring(ruta.lastIndexOf("/")+1);
+
+                URL url2 = new URL(url+"/"+ruta);
+                
+                try{
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(nuevaRuta));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                    }
+                    css.attr("href", "assets/css/"+ruta.substring(ruta.lastIndexOf("/")+1));
+                    reader.close();
+                    writer.close();
+                }catch(Exception e){
+                    continue;
+                }
+            }
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("descargas\\index.html"));
             writer.write(doc.outerHtml());
             writer.close();
         }

@@ -1,8 +1,11 @@
 package examenurl;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
@@ -49,13 +52,61 @@ public class Hilo implements Runnable{
                 for(Element enlace : enlaces){
                     enlace.attr("href", analizador(enlace.attr("href"), "(?<=//).+")+".html");
                 }
-                BufferedWriter writer = new BufferedWriter(new FileWriter(analizador(this.url,"(?<=//).+")+".html"));
+                
+                Elements archivosjs = doc.select("script");
+                for(Element js : archivosjs){
+                    String ruta = js.attr("src");
+                    String nuevaRuta = "descargas\\assets\\js\\"+ruta.substring(ruta.lastIndexOf("/")+1);
+
+                    URL url2 = new URL(url+"/"+ruta);
+                    try{
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(nuevaRuta));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            writer.write(line);
+                        }
+                        js.attr("src", "assets/js/"+ruta.substring(ruta.lastIndexOf("/")+1));
+                        reader.close();
+                        writer.close();
+                    }
+                    catch(Exception ex){
+                        continue;
+                    }
+                }
+
+                Elements archivosCSS = doc.select("link");
+                for(Element css : archivosCSS){
+                    String ruta = css.attr("href");
+                    String nuevaRuta = "descargas\\assets\\css\\"+ruta.substring(ruta.lastIndexOf("/")+1);
+
+                    URL url2 = new URL(url+"/"+ruta);
+
+                    try{
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(url2.openStream()));
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(nuevaRuta));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            writer.write(line);
+                        }
+                        css.attr("href", "assets/css/"+ruta.substring(ruta.lastIndexOf("/")+1));
+                        reader.close();
+                        writer.close();
+                    }catch(Exception e){
+                        continue;
+                    }
+                }
+                
+                BufferedWriter writer = new BufferedWriter(new FileWriter("descargas\\"+analizador(this.url,"(?<=//).+")+".html"));
                 writer.write(doc.outerHtml());
                 writer.close();
                 registro.add(this.url);
+                System.out.println("URL Descargada");
+                System.out.println(registro.size()+"/"+pendientes.size());
             }
             catch(IOException ex) {
-                System.out.println("Valió barriga: "+ex.getMessage());
+                System.out.println("No se pudo descargar: "+ex.getMessage());
             }
         }
     }
