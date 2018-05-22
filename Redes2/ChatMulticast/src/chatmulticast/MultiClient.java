@@ -1,5 +1,4 @@
 package chatmulticast;
-import com.vdurmont.emoji.Emoji;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -20,8 +19,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import javax.swing.JEditorPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +36,7 @@ public class MultiClient extends JFrame implements ActionListener{
     private HiloEntrada entrada;
     private final JEditorPane texto;
     private final JLabel tag1, tag2, tag3;
-    private final JButton enviar, limpiar;
+    private final JButton enviar, limpiar, archivo;
     private final JList mensajes;
     private final JTable emojis;
     private final DefaultListModel listaMensajes = new DefaultListModel();
@@ -60,6 +65,7 @@ public class MultiClient extends JFrame implements ActionListener{
         tag3 = new JLabel("Mensajes recibidos");
         enviar = new JButton("Enviar");
         limpiar = new JButton("Limpiar");
+        archivo = new JButton("Enviar archivos");
         mensajes = new JList();
         emojis = new JTable();
         scroll = new JScrollPane(mensajes);
@@ -70,8 +76,10 @@ public class MultiClient extends JFrame implements ActionListener{
         texto.setBounds(10, 60, 300, 100);
         texto.setFont(new Font("Segoe UI Emoji", 0, 14));
         enviar.setBounds(10, 170, 100, 25);
+        archivo.setBounds(120, 170, 100, 25);
         limpiar.setBounds(320, 330, 100, 25);
         enviar.addActionListener(this);
+        archivo.addActionListener(this);
         limpiar.addActionListener(this);
         mensajes.setModel(listaMensajes);
         mensajes.setLayoutOrientation(JList.VERTICAL);
@@ -99,6 +107,7 @@ public class MultiClient extends JFrame implements ActionListener{
         super.add(tag3);
         super.add(texto);
         super.add(enviar);
+        super.add(archivo);
         super.add(limpiar);
         super.add(scroll);
         super.add(scrollemojis);
@@ -137,13 +146,6 @@ public class MultiClient extends JFrame implements ActionListener{
             try {
                 socket.setTimeToLive(32);
                 socket.send(paquete);
-                
-                /*byte[] sendData = new byte[512];
-                String filePath = "C:\\in.txt";
-        File file = new File(filePath);
-        FileInputStream fis = new FileInputStream(file);
-                System.out.println("len "+file.length());*/
-        
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             }
@@ -154,6 +156,34 @@ public class MultiClient extends JFrame implements ActionListener{
         }
         else if(e.getSource().equals(limpiar)){
             listaMensajes.clear();
+        }
+        else if(e.getSource().equals(archivo)){
+            try{
+                String clave = "archivoarchivoarchivo";
+                DatagramPacket paqClave = new DatagramPacket(clave.getBytes(), clave.length(), grupo, MCAST_PORT);
+                socket.send(paqClave);
+                
+                File archivo = new File("C:\\Users\\andre\\Desktop\\cenlexogro.pdf");
+                DataInputStream entradaArchivo = new DataInputStream(new FileInputStream(archivo.getAbsolutePath()));
+                int sent = 0, t;
+                long p, size = archivo.length();
+                while(sent < size){
+                    byte data[] = new byte[1024];
+                    t = entradaArchivo.read(data);
+                    DatagramPacket paquete = new DatagramPacket(data, t, grupo, MCAST_PORT);
+                    socket.setTimeToLive(32);
+                    socket.send(paquete);
+                    sent += t;
+                    p = (sent*100/size);
+                    System.out.println("Progreso: "+p+"%");
+                }
+                entradaArchivo.close();
+                clave = "finfinfin";
+                paqClave = new DatagramPacket(clave.getBytes(), clave.length(), grupo, MCAST_PORT);
+                socket.send(paqClave);
+            }catch(IOException ex){
+                System.out.println("Valió barriga el archivo: "+ex.getMessage());
+            }
         }
     }
 
