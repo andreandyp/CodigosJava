@@ -49,9 +49,9 @@ public class Hilo implements Runnable{
                 }
                 
                 this.doc = Jsoup.connect(this.url).ignoreHttpErrors(false).get();
-                guardarArchivo("descargas\\"+analizador(this.url, "(?<=//).+")+".html");
                 descargarCSS(doc.select("link"));
-                descargarJS(doc.select("script"));
+                //descargarJS(doc.select("script"));
+                guardarArchivo("descargas\\"+analizador(this.url, "(?<=//).+")+".html");
             
                 registro.add(this.url);
                 System.out.println("URL Descargada");
@@ -65,7 +65,11 @@ public class Hilo implements Runnable{
         Pattern expreg = Pattern.compile(regex);
         Matcher buscador = expreg.matcher(com);
         if(buscador.find()){
-            return buscador.group().replace('/', '-');
+            String nueva = buscador.group();
+            if(nueva.lastIndexOf("/") == nueva.length() - 1){
+                nueva = nueva.substring(0, nueva.length() - 1);
+            }
+            return nueva.replace('/', '-');
         }else{
             return "hue";
         }

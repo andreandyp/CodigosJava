@@ -7,8 +7,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.Scanner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,11 +24,11 @@ public class ExamenURL{
         Scanner teclado = new Scanner(System.in);
         System.out.println("Ingresa una URL: ");
         url = teclado.nextLine();
-        System.out.println("Inserta el nivel de profundidad: (Máximo 4)");
+        System.out.println("Inserta el nivel de profundidad: (Máximo 2)");
         profundidad = teclado.nextInt();
-        if(profundidad > 4){
-            System.out.println("Excediste el límite. Se reajustará la profundidad a 4");
-            profundidad = 4;
+        if(profundidad > 2){
+            System.out.println("Excediste el límite. Se reajustará la profundidad a 2");
+            profundidad = 2;
         }
         
         System.out.println("Obteniendo enlaces");
@@ -38,7 +36,7 @@ public class ExamenURL{
         obtenerEnlaces(url, profundidad);
         System.out.println("Descargando... ");
         
-        ExecutorService executor = Executors.newScheduledThreadPool(64);
+        ExecutorService executor = Executors.newFixedThreadPool(64);
         for(int i = 0; i < 64; i++){
             executor.execute(new Hilo(rl, registro, pendientes, i));
         }
@@ -64,7 +62,6 @@ public class ExamenURL{
         try{
             Document doc = Jsoup.connect(url).ignoreHttpErrors(false).get();
             Elements enlaces = doc.select("a[href^='http']");
-            
             for(Element enlace : enlaces){
                 pendientes.put(enlace.attr("href"));
                 if(profundidad != 0){
@@ -79,14 +76,5 @@ public class ExamenURL{
         }
     }
     
-    private String analizador(String com, String regex) {
-        Pattern expreg = Pattern.compile(regex);
-        Matcher buscador = expreg.matcher(com);
-        if(buscador.find()){
-            return buscador.group().replace('/', '-');
-        }else{
-            return "hue";
-        }
-    }
     
 }

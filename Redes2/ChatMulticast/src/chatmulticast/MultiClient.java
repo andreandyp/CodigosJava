@@ -19,15 +19,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
  
@@ -159,28 +155,40 @@ public class MultiClient extends JFrame implements ActionListener{
         }
         else if(e.getSource().equals(archivo)){
             try{
-                String clave = "archivoarchivoarchivo";
-                DatagramPacket paqClave = new DatagramPacket(clave.getBytes(), clave.length(), grupo, MCAST_PORT);
-                socket.send(paqClave);
-                
-                File archivo = new File("C:\\Users\\andre\\Desktop\\cenlexogro.pdf");
-                DataInputStream entradaArchivo = new DataInputStream(new FileInputStream(archivo.getAbsolutePath()));
-                int sent = 0, t;
-                long p, size = archivo.length();
-                while(sent < size){
-                    byte data[] = new byte[1024];
-                    t = entradaArchivo.read(data);
-                    DatagramPacket paquete = new DatagramPacket(data, t, grupo, MCAST_PORT);
-                    socket.setTimeToLive(32);
-                    socket.send(paquete);
-                    sent += t;
-                    p = (sent*100/size);
-                    System.out.println("Progreso: "+p+"%");
+                JFileChooser jfc = new JFileChooser();
+                jfc.setDialogTitle("Abrir archivo");
+                jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                jfc.setMultiSelectionEnabled(false);
+                int succesful = jfc.showOpenDialog(this);
+                if(succesful == JFileChooser.APPROVE_OPTION){
+                    String clave = "archivoarchivoarchivo";
+                    DatagramPacket paqClave = new DatagramPacket(clave.getBytes(), clave.length(), grupo, MCAST_PORT);
+                    socket.send(paqClave);
+
+                    File archivo = jfc.getSelectedFile();
+                    clave = archivo.getName();
+                    paqClave = new DatagramPacket(clave.getBytes(), clave.length(), grupo, MCAST_PORT);
+                    socket.send(paqClave);
+                    paqClave = new DatagramPacket(nombre.getBytes(), nombre.length(), grupo, MCAST_PORT);
+                    socket.send(paqClave);
+                    DataInputStream entradaArchivo = new DataInputStream(new FileInputStream(archivo.getAbsolutePath()));
+                    int sent = 0, t;
+                    long p, size = archivo.length();
+                    while(sent < size){
+                        byte data[] = new byte[1024];
+                        t = entradaArchivo.read(data);
+                        DatagramPacket paquete = new DatagramPacket(data, t, grupo, MCAST_PORT);
+                        socket.setTimeToLive(32);
+                        socket.send(paquete);
+                        sent += t;
+                        p = (sent*100/size);
+                        System.out.println("Progreso: "+p+"%");
+                    }
+                    entradaArchivo.close();
+                    clave = "finfinfin";
+                    paqClave = new DatagramPacket(clave.getBytes(), clave.length(), grupo, MCAST_PORT);
+                    socket.send(paqClave);
                 }
-                entradaArchivo.close();
-                clave = "finfinfin";
-                paqClave = new DatagramPacket(clave.getBytes(), clave.length(), grupo, MCAST_PORT);
-                socket.send(paqClave);
             }catch(IOException ex){
                 System.out.println("Valió barriga el archivo: "+ex.getMessage());
             }
