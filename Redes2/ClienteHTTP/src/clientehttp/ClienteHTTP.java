@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class ClienteHTTP {
-    private static final int PUERTO = 1337;
+    private static final int PUERTO = 1338;
     public static void main(String[] args) {
         try {
             ServerSocket ss = new ServerSocket(PUERTO);
